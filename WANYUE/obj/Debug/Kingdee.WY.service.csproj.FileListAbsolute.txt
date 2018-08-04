@@ -1,0 +1,5 @@
+C:\Program Files (x86)\Kingdee\K3Cloud\WebSite\Bin\Kingdee.K3.TestConRunJob.PlugIn.service.dll
+C:\项目\丸悦\TestConRunJob\TestConRunJob\obj\Debug\Kingdee.WY.service.csprojResolveAssemblyReference.cache
+C:\项目\丸悦\TestConRunJob\TestConRunJob\obj\Debug\Kingdee.K3.TestConRunJob.PlugIn.service.dll
+C:\项目\丸悦\TestConRunJob\TestConRunJob\obj\Debug\Kingdee.K3.TestConRunJob.PlugIn.service.pdb
+C:\Program Files (x86)\Kingdee\K3Cloud\WebSite\Bin\Kingdee.K3.TestConRunJob.PlugIn.service.pdb
