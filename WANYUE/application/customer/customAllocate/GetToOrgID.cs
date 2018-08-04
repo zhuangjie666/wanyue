@@ -16,7 +16,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.customAllocate
         public static Dictionary<string, string> getToOrgID(Context ctx,List<string> numbers)
         {
            
-            string SQL4currOrg = "select FCUSTID,FUSEORGID from T_BD_CUSTOMER where fnumber = '{0}'";
+            string SQL4currOrg = "select FNUMBER,FCUSTID,FUSEORGID from T_BD_CUSTOMER where fnumber = '{0}'";
             string SQL4AllOrg = "select FORGID from T_ORG_Organizations";
             string currOrgID = "";
           //  string[] fmaterID = new string[] { };
