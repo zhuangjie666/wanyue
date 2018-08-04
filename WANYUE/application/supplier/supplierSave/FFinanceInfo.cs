@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kingdee.K3.WANYUE.PlugIn.service.application.supplier
+namespace Kingdee.K3.WANYUE.PlugIn.service.application.supplier.supplierSave
 {
    public class FFinanceInfo
     {
-        private string fPayCurrencyId;
+        private FPayCurrencyId fPayCurrencyId;
 
-        public string FPayCurrencyId
+        public FPayCurrencyId FPayCurrencyId
         {
             get
             {

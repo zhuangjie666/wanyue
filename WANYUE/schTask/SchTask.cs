@@ -11,19 +11,21 @@ using Kingdee.BOS.Contracts;
 using Kingdee.BOS.Authentication;
 using Kingdee.K3.WANYUE.PlugIn.service.application.customer.customSave;
 using Kingdee.K3.WANYUE.PlugIn.service.Invoke;
+using System.Data;
+using Kingdee.K3.WANYUE.PlugIn.service.Invoke.invokeResult;
 
 namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
 {
     public abstract class SchTask : IScheduleService, SchInterface
     {
         public RemoteExcuteDataBase remoteExcuteDataBase;
-        public abstract void Run(Context ctx, Schedule schedule);
+     
 
         public string GetStatement(string sourceObject) {
             return new SQLStatement(sourceObject).returnSQLStatement(sourceObject);
         }
 
-        public abstract bool InvokeAPI<T>(string[] opearteList, T t, Invoke.LoginResult loginResult, Context ctx);
+
 
         public ConnectionResult connectionToRemoteDatabase()
         {
@@ -65,5 +67,10 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             return true;
             throw new NotImplementedException();
         }
+
+        public abstract void Run(Context ctx, Schedule schedule);
+        public abstract bool InvokeAPI<T>(string[] opearteList, T t, Invoke.LoginResult loginResult, Context ctx);
+        public abstract List<T> handleData<T>(DataSet dataSet);
+        public abstract InvokeReturnHandle<T> handleReturnMessage<T>(InvokeResult invokeResult, string opearte, string model, Context ctx);
     }
 }

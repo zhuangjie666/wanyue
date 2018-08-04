@@ -2,6 +2,7 @@
 using Kingdee.BOS.App.Data;
 using Kingdee.BOS.Orm.DataEntity;
 using Kingdee.BOS.ServiceHelper;
+using Kingdee.K3.WANYUE.PlugIn.service.application.supplier;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,10 +14,17 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.customAllocate
 {
     public static class GetToOrgID
     {
-        public static Dictionary<string, string> getToOrgID(Context ctx,List<string> numbers)
+        public static string SQL4currOrg = "";
+        public static Dictionary<string, string> getToOrgID(Context ctx,List<string> numbers,string model)
         {
-           
-            string SQL4currOrg = "select FNUMBER,FCUSTID,FUSEORGID from T_BD_CUSTOMER where fnumber = '{0}'";
+            if (SupplierSQLObject.Supplier.Equals(model))
+            {
+                SQL4currOrg = "select FSUPPLIERID,FUSEORGID from t_BD_Supplier where fnumber = '{0}'";
+            }
+            else {
+                SQL4currOrg = "select FCUSTID,FUSEORGID from T_BD_CUSTOMER where fnumber = '{0}'";
+            }
+             
             string SQL4AllOrg = "select FORGID from T_ORG_Organizations";
             string currOrgID = "";
           //  string[] fmaterID = new string[] { };
@@ -29,7 +37,13 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.customAllocate
                 foreach (DynamicObject doname in ds)
                 {
                     currOrgID = doname["FUSEORGID"].ToString();
-                    fmaterID=doname["FCUSTID"].ToString();
+                    if (SupplierSQLObject.Supplier.Equals(model))
+                    {
+                        fmaterID = doname["FSUPPLIERID"].ToString();
+                    }
+                    else {
+                        fmaterID = doname["FCUSTID"].ToString();
+                    }
                 }
 
                 DynamicObjectCollection dynamicObjectCollection = DBUtils.ExecuteDynamicObject(ctx, SQL4AllOrg);

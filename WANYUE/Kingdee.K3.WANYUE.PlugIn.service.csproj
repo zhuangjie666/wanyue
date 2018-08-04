@@ -112,9 +112,14 @@
     <Compile Include="application\customer\customSave\FUseOrgId.cs" />
     <Compile Include="application\customer\customSave\Model.cs" />
     <Compile Include="application\customer\customSubmit\CustomInfoSubmitObject.cs" />
-    <Compile Include="application\supplier\FFinanceInfo.cs" />
-    <Compile Include="application\supplier\FLocationInfo.cs" />
-    <Compile Include="application\supplier\Model.cs" />
+    <Compile Include="application\supplier\FPayCurrencyId.cs" />
+    <Compile Include="application\supplier\SupplierInfoexceptAllocate.cs" />
+    <Compile Include="application\supplier\supplierSave\FFinanceInfo.cs" />
+    <Compile Include="application\supplier\supplierSave\FLocationInfo.cs" />
+    <Compile Include="application\supplier\supplierSave\FLocNewContact.cs" />
+    <Compile Include="application\supplier\supplierSave\Model.cs" />
+    <Compile Include="application\supplier\supplierAllocate\SupplierInfoAllocateObject.cs" />
+    <Compile Include="application\supplier\supplierSave\SupplierInfoSaveObject.cs" />
     <Compile Include="application\supplier\SupplierSQLObject.cs" />
     <Compile Include="interfaceSch\SchInterface.cs" />
     <Compile Include="Invoke\invokeCore\InvokeCloudAPI.cs" />

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kingdee.K3.TestConRunJob.PlugIn.service
 {
+    //这里会有进程共享需要处理,否则在异步执行都有错误的时候打印会直接异常
     public class SystemLog
     {
         public static void WriteSystemLog(string logs) {

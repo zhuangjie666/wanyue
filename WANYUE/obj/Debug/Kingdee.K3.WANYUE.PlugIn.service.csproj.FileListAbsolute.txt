@@ -2,4 +2,3 @@ C:\Program Files (x86)\Kingdee\K3Cloud\WebSite\Bin\Kingdee.K3.WANYUE.PlugIn.serv
 C:\Program Files (x86)\Kingdee\K3Cloud\WebSite\Bin\Kingdee.K3.WANYUE.PlugIn.service.pdb
 C:\项目\丸悦\TestConRunJob\WANYUE\obj\Debug\Kingdee.K3.WANYUE.PlugIn.service.dll
 C:\项目\丸悦\TestConRunJob\WANYUE\obj\Debug\Kingdee.K3.WANYUE.PlugIn.service.pdb
-C:\项目\丸悦\TestConRunJob\WANYUE\obj\Debug\Kingdee.K3.WANYUE.PlugIn.service.csprojResolveAssemblyReference.cache

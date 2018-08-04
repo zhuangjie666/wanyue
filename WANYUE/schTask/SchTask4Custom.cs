@@ -33,7 +33,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
         public string formID = "BD_Customer";
         public bool CallResult = false;
 
-        public CustomInfoSaveObject customSaveInfoObj = null;
+        public List<CustomInfoSaveObject> customSaveInfoObjList = null;
 
         public override void Run(Context ctx, Schedule schedule)
         {
@@ -48,7 +48,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             if (connectionToRemoteDatabase().Sucessd)
             {
                 ExcuteDataBaseResult excuteDataBaseResult = base.remoteExcuteDataBase.excuteStatement(SQLStatement, connectionToRemoteDatabase().Sqlconn);
-                customSaveInfoObj = handleData(excuteDataBaseResult.Ds);
+                customSaveInfoObjList = handleData<CustomInfoSaveObject>(excuteDataBaseResult.Ds);
             }
             else {
                 //打印
@@ -56,7 +56,10 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
 
             if (LoginAPI(customSaveModel)) {
                 string[] opearteList = new string[] { Save, Submit, Audit, Allocate };
-                CallResult=InvokeAPI<CustomInfoSaveObject>(opearteList, customSaveInfoObj, InvokeCloudAPI.Login(customSaveModel), ctx);
+                foreach(CustomInfoSaveObject customSaveInfoObj in customSaveInfoObjList) {
+                    CallResult = InvokeAPI(opearteList, customSaveInfoObj, InvokeCloudAPI.Login(customSaveModel), ctx);
+                }
+              
             }
 
             if (!CallResult)
@@ -70,9 +73,10 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             }
         }
 
-        public CustomInfoSaveObject handleData(DataSet dataSet)
-        {
 
+        public override List<T> handleData<T>(DataSet dataSet)
+        {
+            List<CustomInfoSaveObject> customSaveInfoObjList = new List<CustomInfoSaveObject>();
             CustomInfoSaveObject customSaveInfoObj = new CustomInfoSaveObject();
             Model model = new Model();
             FCreateOrgId fcreateOrgID = new FCreateOrgId();
@@ -83,7 +87,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             fcreateOrgID.FNumber = "103";
             fGroup.fNumber = "KH002";
             fsalGroupID.fNumber = "0";
-            model.FName = "测试";
+            model.FName = "测试1";
             ftradingCurrID.fNumber = "PRE001";
             fUserOrgId.FNumber = "103";
             model.FCreateOrgId = fcreateOrgID;
@@ -92,33 +96,46 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             model.FtradingCurrID = ftradingCurrID;
             model.FUseOrgId = fUserOrgId;
             customSaveInfoObj.Model = model;
+            customSaveInfoObjList.Add(customSaveInfoObj);
+            fcreateOrgID.FNumber = "103";
+            fGroup.fNumber = "KH002";
+            fsalGroupID.fNumber = "0";
+            model.FName = "测试2";
+            ftradingCurrID.fNumber = "PRE001";
+            fUserOrgId.FNumber = "103";
+            model.FCreateOrgId = fcreateOrgID;
+            model.FGroup = fGroup;
+            model.FsalGroupID = fsalGroupID;
+            model.FtradingCurrID = ftradingCurrID;
+            model.FUseOrgId = fUserOrgId;
+            customSaveInfoObj.Model = model;
+            customSaveInfoObjList.Add(customSaveInfoObj);
 
-            return customSaveInfoObj;
-        }
-
-        public override bool InvokeAPI<CustomInfoSaveObject>(string[] opearteList, CustomInfoSaveObject customInfoSaveObject, Invoke.LoginResult loginResult, Context ctx)
-        {
-            return callApiToSaveCustom(opearteList, customSaveInfoObj, loginResult, ctx);
+            return (List<T>)(object)customSaveInfoObjList;
             throw new NotImplementedException();
         }
 
-        private bool callApiToSaveCustom(string[] opearteList, CustomInfoSaveObject customSaveInfoObj, Invoke.LoginResult loginResult, Context ctx)
+
+        public override bool InvokeAPI<T>(string[] opearteList, T t, Invoke.LoginResult loginResult, Context ctx)
         {
             InvokeResult invokeResult = null;
             int i = 0;
             string input = null;
-            foreach (string opearte in opearteList) {
+            foreach (string opearte in opearteList)
+            {
                 i = i + 1;
                 if (Save.Equals(opearte))
                 {
                     BussnessLog.WriteBussnessLog("操作=" + opearte);
-                    BussnessLog.WriteBussnessLog("input json=" + JsonExtension.ToJSON(customSaveInfoObj));
-                    invokeResult = InvokeCloudAPI.InvokeFunction(JsonExtension.ToJSON(customSaveInfoObj), loginResult.client, formID, Save, customSaveModel);
+                    BussnessLog.WriteBussnessLog("input json=" + JsonExtension.ToJSON(t));
+                    invokeResult = InvokeCloudAPI.InvokeFunction(JsonExtension.ToJSON(t), loginResult.client, formID, Save, customSaveModel);
                 }
-                else {
+                else
+                {
                     BussnessLog.WriteBussnessLog("操作=" + opearte);
-                    if (Allocate.Equals(opearte)) {
-                         input = JsonExtension.ToJSON(handleReturnMessage<CustomInfoAllocateObject>(invokeResult, opearte, customSaveModel, ctx).CustomOpearteObject);
+                    if (Allocate.Equals(opearte))
+                    {
+                        input = JsonExtension.ToJSON(handleReturnMessage<CustomInfoAllocateObject>(invokeResult, opearte, customSaveModel, ctx).CustomOpearteObject);
                         BussnessLog.WriteBussnessLog("input json=" + input);
                         invokeResult = InvokeCloudAPI.InvokeFunction(input, loginResult.client, formID, opearte, customAuditModel);
                         if (handleReturnMessage<CustomInfoAllocateObject>(invokeResult, Allocate, customAllocateModel, ctx).ReturnResult)
@@ -126,26 +143,27 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                             BussnessLog.WriteBussnessLog("分配成功!");
                             return true;
                         }
-                        else {
+                        else
+                        {
                             BussnessLog.WriteBussnessLog("分配失败");
                             return false;
                         }
                     }
-                     input = JsonExtension.ToJSON(handleReturnMessage<CustomInfoexceptAllocate>(invokeResult, opearteList[i - 1], customSaveModel,ctx).CustomOpearteObject);
+                    input = JsonExtension.ToJSON(handleReturnMessage<CustomInfoexceptAllocate>(invokeResult, opearteList[i - 1], customSaveModel, ctx).CustomOpearteObject);
                     BussnessLog.WriteBussnessLog("input json=" + input);
                     invokeResult = InvokeCloudAPI.InvokeFunction(input, loginResult.client, formID, opearte, customAuditModel);
                 }
-                if (!handleReturnMessage<CustomInfoexceptAllocate>(invokeResult, opearte, customSaveModel,ctx).ReturnResult)
+                if (!handleReturnMessage<CustomInfoexceptAllocate>(invokeResult, opearte, customSaveModel, ctx).ReturnResult)
                 {
                     break;
                 }
             }
             return false;
-
             throw new NotImplementedException();
         }
 
-        private InvokeReturnHandle<T> handleReturnMessage<T>(InvokeResult invokeResult, string opearte, string model, Context ctx)
+
+        public override InvokeReturnHandle<T> handleReturnMessage<T>(InvokeResult invokeResult, string opearte, string model, Context ctx)
         {
 
             InvokeReturnHandle<T> invokeReturnHandle = new InvokeReturnHandle<T>();
@@ -169,8 +187,6 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             List<SuccessEntitysItem> entries = invokeResult.Result.ResponseStatus.SuccessEntitys;
 
             CustomInfoexceptAllocate customInfoexceptAllocateObject = new CustomInfoexceptAllocate();
-         //   string[] numbers = new string[] { };
-           // string[] pkids = new string[] { };
             List<string> numbers = new List<string>();
             List<string> pkids = new List<string>();
             foreach (SuccessEntitysItem entry in entries) {
@@ -179,7 +195,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             }
             if (Allocate.Equals(opearte)) {
                 CustomInfoAllocateObject customInfoAllocateObject = new CustomInfoAllocateObject();
-                Dictionary<string, string> outresult = GetToOrgID.getToOrgID(ctx, numbers);
+                Dictionary<string, string> outresult = GetToOrgID.getToOrgID(ctx, numbers,model);
                 foreach (KeyValuePair<string, string> kvp in outresult)
                 {
                     customInfoAllocateObject.PkIds = kvp.Key;
@@ -192,13 +208,10 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 return invokeReturnHandle;
             }
             customInfoexceptAllocateObject.Numbers = numbers.ToArray();
-         //   customInfoAllocateObject.PkIds = pkids.ToArray();
             invokeReturnHandle.CustomOpearteObject = (T)(object)customInfoexceptAllocateObject;
             invokeReturnHandle.ReturnResult = true;
             return invokeReturnHandle;
             throw new NotImplementedException();
         }
-
-
     }
 }

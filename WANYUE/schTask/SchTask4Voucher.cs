@@ -10,7 +10,7 @@ using Kingdee.BOS.Core;
 namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
 {
     [Kingdee.BOS.Util.HotUpdate]
-    class SchTask4Voucher : IScheduleService
+    public class SchTask4Voucher : IScheduleService
     {
         public void Run(Context ctx, Schedule schedule)
         {

@@ -10,7 +10,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
     {
         private bool returnResult;
         private T customOpearteObject;
-
+       
         public bool ReturnResult
         {
             get
@@ -36,5 +36,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 customOpearteObject = value;
             }
         }
+
+       
     }
 }

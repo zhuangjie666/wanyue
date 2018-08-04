@@ -11,7 +11,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.middleDataBaseStatemnt
     {
         private string sourceObject;
         public static string getCustomerInfoStatement = "select * from T_BD_MATERIAL";
-
+        public static string getSupplierInfoStatement = "SELECT * FROM T_BD_MATERIAL";
         public SQLStatement(string sourceObject)
         {
             this.sourceObject = sourceObject;

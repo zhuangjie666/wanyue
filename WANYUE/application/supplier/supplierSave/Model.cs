@@ -1,44 +1,21 @@
-﻿using System;
+﻿using Kingdee.K3.WANYUE.PlugIn.service.application.customer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kingdee.K3.WANYUE.PlugIn.service.application.supplier
+namespace Kingdee.K3.WANYUE.PlugIn.service.application.supplier.supplierSave
 {
    public class Model
     {
-        private string fCreateOrgId;
-        private string fUseOrgId;
+        private FCreateOrgId fCreateOrgId;
+        private FUseOrgId fUseOrgId;
         private string fName;
         private FFinanceInfo fFinanceInfo;
-        private FLocationInfo fLocationInfo;
+        private FLocationInfo[] fLocationInfo;
 
-        public string FCreateOrgId
-        {
-            get
-            {
-                return fCreateOrgId;
-            }
-
-            set
-            {
-                fCreateOrgId = value;
-            }
-        }
-
-        public string FUseOrgId
-        {
-            get
-            {
-                return fUseOrgId;
-            }
-
-            set
-            {
-                fUseOrgId = value;
-            }
-        }
+       
 
         public string FName
         {
@@ -66,7 +43,35 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.supplier
             }
         }
 
-        public FLocationInfo FLocationInfo
+    
+
+        public FCreateOrgId FCreateOrgId
+        {
+            get
+            {
+                return fCreateOrgId;
+            }
+
+            set
+            {
+                fCreateOrgId = value;
+            }
+        }
+
+        public FUseOrgId FUseOrgId
+        {
+            get
+            {
+                return fUseOrgId;
+            }
+
+            set
+            {
+                fUseOrgId = value;
+            }
+        }
+
+        public FLocationInfo[] FLocationInfo
         {
             get
             {
