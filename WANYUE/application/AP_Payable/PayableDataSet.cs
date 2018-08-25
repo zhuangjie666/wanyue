@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
+namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
 {
-    [Kingdee.BOS.Util.HotUpdate]
-    class SchTask4
+   public class PayableDataSet
     {
+
     }
 }

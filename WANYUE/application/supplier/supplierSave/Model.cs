@@ -5,82 +5,150 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kingdee.K3.WANYUE.PlugIn.service.application.supplier.supplierSave
+namespace Kingdee.K3.WANYUE.PlugIn.service.application.voucher
 {
    public class Model
     {
-        private FCreateOrgId fCreateOrgId;
-        private FUseOrgId fUseOrgId;
-        private string fName;
-        private FFinanceInfo fFinanceInfo;
-        private FLocationInfo[] fLocationInfo;
+        private string fVOUCHERID;
+        private string fVOUCHERGROUPNO; //凭证号
+        private string fISADJUSTVOUCHER;
+        private FAccountBookNumber fAccountBookID; //账簿
+        private string fDate; //日期
+        private FSystemID fSystemID;//系统字段GL
+        private FVoucherGroupID fVoucherGroupID; //凭证字
+        private string fDocumentStatus; //审核状态 
+        private FAccbookOrgID fAccbookOrgID; // 核算组织
+        private List<FEntity> fEntity;
 
-       
-
-        public string FName
+        public string FVOUCHERID
         {
             get
             {
-                return fName;
+                return fVOUCHERID;
             }
 
             set
             {
-                fName = value;
+                fVOUCHERID = value;
             }
         }
 
-        public FFinanceInfo FFinanceInfo
+
+        public string FVOUCHERGROUPNO
         {
             get
             {
-                return fFinanceInfo;
+                return fVOUCHERGROUPNO;
             }
 
             set
             {
-                fFinanceInfo = value;
+                fVOUCHERGROUPNO = value;
             }
         }
 
-    
-
-        public FCreateOrgId FCreateOrgId
+        public string FISADJUSTVOUCHER
         {
             get
             {
-                return fCreateOrgId;
+                return fISADJUSTVOUCHER;
             }
 
             set
             {
-                fCreateOrgId = value;
+                fISADJUSTVOUCHER = value;
             }
         }
 
-        public FUseOrgId FUseOrgId
+        public FAccountBookNumber FAccountBookID
         {
             get
             {
-                return fUseOrgId;
+                return fAccountBookID;
             }
 
             set
             {
-                fUseOrgId = value;
+                fAccountBookID = value;
             }
         }
 
-        public FLocationInfo[] FLocationInfo
+        public string FDate
         {
             get
             {
-                return fLocationInfo;
+                return fDate;
             }
 
             set
             {
-                fLocationInfo = value;
+                fDate = value;
+            }
+        }
+
+
+        public FVoucherGroupID FVoucherGroupID
+        {
+            get
+            {
+                return fVoucherGroupID;
+            }
+
+            set
+            {
+                fVoucherGroupID = value;
+            }
+        }
+
+        public string FDocumentStatus
+        {
+            get
+            {
+                return fDocumentStatus;
+            }
+
+            set
+            {
+                fDocumentStatus = value;
+            }
+        }
+
+        public FAccbookOrgID FAccbookOrgID
+        {
+            get
+            {
+                return fAccbookOrgID;
+            }
+
+            set
+            {
+                fAccbookOrgID = value;
+            }
+        }
+
+        public List<FEntity> FEntity
+        {
+            get
+            {
+                return fEntity;
+            }
+
+            set
+            {
+                fEntity = value;
+            }
+        }
+
+        public FSystemID FSystemID
+        {
+            get
+            {
+                return fSystemID;
+            }
+
+            set
+            {
+                fSystemID = value;
             }
         }
     }

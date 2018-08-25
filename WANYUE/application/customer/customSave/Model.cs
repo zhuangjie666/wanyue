@@ -9,6 +9,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.customer
    public class Model
     {
         private string fcustID;
+        private string fnumber;
         private FCreateOrgId fCreateOrgId;
         private FGroup fGroup;
         private string fName;
@@ -104,6 +105,19 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.customer
             set
             {
                 fUseOrgId = value;
+            }
+        }
+
+        public string Fnumber
+        {
+            get
+            {
+                return fnumber;
+            }
+
+            set
+            {
+                fnumber = value;
             }
         }
     }

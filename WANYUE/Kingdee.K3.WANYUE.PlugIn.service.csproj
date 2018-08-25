@@ -99,6 +99,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="application\AP_Payable\FBillTypeID.cs" />
+    <Compile Include="application\AP_Payable\FChargeId.cs" />
+    <Compile Include="application\AP_Payable\FCURRENCYID.cs" />
+    <Compile Include="application\AP_Payable\FEntityDetail.cs" />
+    <Compile Include="application\AP_Payable\FMATERIALID.cs" />
+    <Compile Include="application\AP_Payable\FORDERID.cs" />
+    <Compile Include="application\AP_Payable\FPAYORGID.cs" />
+    <Compile Include="application\AP_Payable\FPRICEUNITID.cs" />
+    <Compile Include="application\AP_Payable\FPURCHASEORGID.cs" />
+    <Compile Include="application\AP_Payable\FSETTLEORGID.cs" />
+    <Compile Include="application\AP_Payable\FsubHeadFinc.cs" />
+    <Compile Include="application\AP_Payable\FsubHeadSuppiler.cs" />
+    <Compile Include="application\AP_Payable\FSUPPLIERID.cs" />
+    <Compile Include="application\AP_Payable\FTRANSFERID.cs" />
+    <Compile Include="application\AP_Payable\Model.cs" />
+    <Compile Include="application\AP_Payable\PayableDataSet.cs" />
+    <Compile Include="application\AP_Payable\PayableInfoSaveObject.cs" />
+    <Compile Include="application\AP_Payable\PayableSQLObject.cs" />
     <Compile Include="application\customer\AllInfoObject.cs" />
     <Compile Include="application\customer\customAllocate\CustomInfoAllocateObject.cs" />
     <Compile Include="application\customer\customAllocate\GetToOrgID.cs" />
@@ -112,8 +130,10 @@
     <Compile Include="application\customer\customSave\FUseOrgId.cs" />
     <Compile Include="application\customer\customSave\Model.cs" />
     <Compile Include="application\customer\customSubmit\CustomInfoSubmitObject.cs" />
+    <Compile Include="application\InfoexceptAllocate.cs" />
     <Compile Include="application\supplier\FPayCurrencyId.cs" />
     <Compile Include="application\supplier\SupplierInfoexceptAllocate.cs" />
+    <Compile Include="application\supplier\supplierSave\FBankInfo.cs" />
     <Compile Include="application\supplier\supplierSave\FFinanceInfo.cs" />
     <Compile Include="application\supplier\supplierSave\FLocationInfo.cs" />
     <Compile Include="application\supplier\supplierSave\FLocNewContact.cs" />
@@ -121,6 +141,37 @@
     <Compile Include="application\supplier\supplierAllocate\SupplierInfoAllocateObject.cs" />
     <Compile Include="application\supplier\supplierSave\SupplierInfoSaveObject.cs" />
     <Compile Include="application\supplier\SupplierSQLObject.cs" />
+    <Compile Include="application\voucher\FAccountBookNumber.cs" />
+    <Compile Include="application\voucher\FAccountID.cs" />
+    <Compile Include="application\voucher\FCurrencyID.cs" />
+    <Compile Include="application\voucher\FDetailID.cs" />
+    <Compile Include="application\voucher\FDETAILID__FF100002.cs" />
+    <Compile Include="application\voucher\FDETAILID__FF100003.cs" />
+    <Compile Include="application\voucher\FDETAILID__FF100004.cs" />
+    <Compile Include="application\voucher\FDETAILID__FF100005.cs" />
+    <Compile Include="application\voucher\FDETAILID__FFLEX10.cs" />
+    <Compile Include="application\voucher\FDETAILID__FFLEX11.cs" />
+    <Compile Include="application\voucher\FDETAILID__FFLEX12.cs" />
+    <Compile Include="application\voucher\FDETAILID__FFLEX13.cs" />
+    <Compile Include="application\voucher\FDETAILID__FFLEX4.cs" />
+    <Compile Include="application\voucher\FDETAILID__FFLEX5.cs" />
+    <Compile Include="application\voucher\FDETAILID__FFLEX6.cs" />
+    <Compile Include="application\voucher\FDETAILID__FFLEX7.cs" />
+    <Compile Include="application\voucher\FDETAILID__FFLEX8.cs" />
+    <Compile Include="application\voucher\FDETAILID__FFLEX9.cs" />
+    <Compile Include="application\voucher\FEntityCopy.cs" />
+    <Compile Include="application\voucher\FEntity.cs" />
+    <Compile Include="application\voucher\FExchangeRateType.cs" />
+    <Compile Include="application\voucher\FSystemID.cs" />
+    <Compile Include="application\voucher\FVoucherGroupID.cs" />
+    <Compile Include="application\voucher\HeSuanWeiDu.cs" />
+    <Compile Include="application\voucher\Model.cs" />
+    <Compile Include="application\voucher\VoucherDataSet.cs" />
+    <Compile Include="application\voucher\VoucherInfoexceptAllocate.cs" />
+    <Compile Include="application\voucher\VoucherInfoSaveObject.cs" />
+    <Compile Include="application\voucher\VouchSQLObject.cs" />
+    <Compile Include="FAccbookOrgID.cs" />
+    <Compile Include="initconfig\BaseInfo.cs" />
     <Compile Include="interfaceSch\SchInterface.cs" />
     <Compile Include="Invoke\invokeCore\InvokeCloudAPI.cs" />
     <Compile Include="Invoke\invokeLogin\InvokeLoginInfo.cs" />
@@ -142,22 +193,23 @@
     <Compile Include="middleDataBaseStatemnt\SQLStatement.cs" />
     <Compile Include="schTask\InvokeReturnHandle.cs" />
     <Compile Include="schTask\SchTask.cs" />
-    <Compile Include="schTask\SchTask4.cs" />
+    <Compile Include="schTask\SchTask4Payable.cs" />
     <Compile Include="schTask\SchTask4Custom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="log\SystemLog.cs" />
     <Compile Include="schTask\SchTask4Supplier.cs" />
     <Compile Include="schTask\SchTask4Voucher.cs" />
+    <Compile Include="tools\AsynFileHelp.cs" />
     <Compile Include="tools\JsonExtension.cs" />
+    <Compile Include="tools\JsonTest.cs" />
     <Compile Include="tools\Monitor4FormFields.cs" />
+    <Compile Include="tools\ToBase64String.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="application\AP_OtherPayable\" />
-    <Folder Include="application\AP_Payable\" />
     <Folder Include="application\AR_OtherRecAble\" />
     <Folder Include="application\AR_receivable\" />
     <Folder Include="application\customer\customAudit\" />
-    <Folder Include="application\voucher\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

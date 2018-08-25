@@ -13,14 +13,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Kingdee.K3.WANYUE.PlugIn.service.interfaceSch {
-
+    [Kingdee.BOS.Util.HotUpdate]
     public interface SchInterface
     {
+
+        bool updateMiddleDataBase(string updateSQLStatement,string model,string tableName);
 
         ConnectionResult connectionToRemoteDatabase();
         bool closeConnetction();
         bool LoginAPI(string model);
-        bool InvokeAPI<T>(string[] opearteList, T t, LoginResult loginResult, Context ctx);
+        InvokeReturnHandle<InvokeResult> InvokeAPI<T>(string[] opearteList, T t, LoginResult loginResult, Context ctx,string formID,string model);
 
          List<T> handleData<T>(DataSet dataSet);
 

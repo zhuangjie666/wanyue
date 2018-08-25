@@ -1,5 +1,6 @@
 ﻿
 using Kingdee.K3.TestConRunJob.PlugIn.service;
+using Kingdee.K3.WANYUE.PlugIn.service.initconfig;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -7,7 +8,8 @@ using System.Text;
 
 namespace Kingdee.K3.WANYUE.PlugIn.service
 {
-    public class RemoteExcuteDataBase
+    [Kingdee.BOS.Util.HotUpdate]
+    public class RemoteExcuteDataBase: BaseInfo
     {
         public static string overChar = ";";
 
@@ -52,6 +54,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service
             ConnectionResult connResult = new ConnectionResult();
             try
             {
+                //TODO:数据库连接信息需要读取配置文件处理 暂时没有处理
                 SqlConnection sqlconn = new SqlConnection(getConntionInfo(remoteServerIP, databaseName, userID, password));
                 sqlconn.Open();
                 connResult.Sqlconn = sqlconn;

@@ -28,10 +28,10 @@ namespace Kingdee.K3.WANYUE.PlugIn.service
             if (result != 1)
             {
                  loginResult = JsonExtension.FromJSON<LoginResult>(ret);
-                BussnessLog.WriteBussnessLog("当前登录模块=" + functionName + "，登录结果:" + BussnessResult.fail + "，错误代码=" + loginResult.MessageCode + "，错误原因=" + loginResult.Message);
+                BussnessLog.WriteBussnessLog(loginResult,functionName,"登录远程Cloud系统API失败!" );
             }
             else {
-                BussnessLog.WriteBussnessLog("当前登录模块=" + functionName + "，登录结果:" + BussnessResult.sucessful);
+                BussnessLog.WriteBussnessLog("",functionName,"登录远程Cloud系统API成功!");
                 loginResult = new LoginResult();
                 loginResult.client = client;
                 loginResult.LoginResultType = 1;
