@@ -4,10 +4,12 @@ using Kingdee.K3.WANYUE.PlugIn.service.application.customer;
 using Kingdee.K3.WANYUE.PlugIn.service.application.customer.customSave;
 using Kingdee.K3.WANYUE.PlugIn.service.Invoke.invokeResult;
 using Kingdee.K3.WANYUE.PlugIn.service.middleDataBaseStatemnt;
+using Kingdee.K3.WANYUE.PlugIn.service.modify;
 using Kingdee.K3.WANYUE.PlugIn.service.tools;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
@@ -35,14 +37,27 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             //5.关闭数据库连接
             SQLStatement = GetStatement(CustomerSQLObject.Customer);
             opearteList = GetOpearteList(CustomerSQLObject.Customer);
+            //修改的单独处理
+            BussnessModify customerModify = new BussnessModify();
+            customerModify.excuteSQL(model, connectionToRemoteDatabase(),ctx);
             if (connectionToRemoteDatabase().Sucessd)
             {
                 ExcuteDataBaseResult excuteDataBaseResult = base.remoteExcuteDataBase.excuteStatement(SQLStatement, connectionToRemoteDatabase().Sqlconn);
                 customSaveInfoObjList = handleData<CustomInfoSaveObject>(excuteDataBaseResult.Ds);
+                if (!closeConnetction(connectionToRemoteDatabase().Sqlconn))
+                {
+                    //打印关闭连接
+                    BussnessLog.WriteBussnessLog("", "数据库操作错误", model + "中间表取数后,关闭数据库连接失败! 请联系系统管理员!");
+                    return;
+                }
             }
             else
             {
-                //打印
+                if (!closeConnetction(connectionToRemoteDatabase().Sqlconn))
+                {
+                    BussnessLog.WriteBussnessLog("", "数据库操作错误", model + "中间表取数前打开数据库连接失败! 请联系系统管理员!");
+                    return;
+                }
             }
             Dictionary<string, Result> statusMap = new Dictionary<string, Result>();
             if (LoginAPI(model))
@@ -53,9 +68,15 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     statusMap.Add(customSaveInfoObj.Model.Fnumber, callResult.CustomOpearteObject.Result);
                 }
                 List<string> getUpdateSQLStatements = new SQLStatement(model).getUpdateSQLStatement(model,statusMap);
+                SqlConnection Sqlconn = connectionToRemoteDatabase().Sqlconn;
                 foreach (string UpdateSQLStatement in getUpdateSQLStatements)
                 {
-                    updateMiddleDataBase(UpdateSQLStatement, model, "t_kf_customer");
+                    updateMiddleDataBase(UpdateSQLStatement, model, "t_kf_customer",Sqlconn);
+                }
+                if (!closeConnetction(Sqlconn))
+                {
+                    BussnessLog.WriteBussnessLog("", "数据库操作错误", model + "中间表数据更新后,关闭数据库连接失败! 请联系系统管理员!");
+                    return;
                 }
             }
         }
@@ -63,7 +84,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
         public override List<T> handleData<T>(DataSet dataSet)
         {
             List<CustomInfoSaveObject> customSaveInfoObjList = new List<CustomInfoSaveObject>();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
             {
                 CustomInfoSaveObject customSaveInfoObj = new CustomInfoSaveObject();
                 Model model = new Model();
@@ -72,11 +93,11 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 FSALGROUPID fsalGroupID = new FSALGROUPID();
                 FTRADINGCURRID ftradingCurrID = new FTRADINGCURRID();
                 FUseOrgId fUserOrgId = new FUseOrgId();
-                fcreateOrgID.FNumber = "100";
+                fcreateOrgID.FNumber = "9999";
                 //fGroup.fNumber = "KH001";
                 fsalGroupID.fNumber = "0";
                 ftradingCurrID.fNumber = "PRE001";
-                fUserOrgId.FNumber = "100";
+                fUserOrgId.FNumber = "9999";
 
                 model.Fnumber = dataSet.Tables[0].Rows[i]["fnumber"].ToString();
                 model.FName = dataSet.Tables[0].Rows[i]["fname"].ToString();

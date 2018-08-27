@@ -92,6 +92,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -99,6 +100,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="application\AP_OtherPayable\FBillTypeID.cs" />
+    <Compile Include="application\AP_OtherPayable\FCONTACTUNIT.cs" />
+    <Compile Include="application\AP_OtherPayable\FCOSTDEPARTMENTID.cs" />
+    <Compile Include="application\AP_OtherPayable\FCOSTID.cs" />
+    <Compile Include="application\AP_OtherPayable\FCURRENCYID.cs" />
+    <Compile Include="application\AP_OtherPayable\FEntity.cs" />
+    <Compile Include="application\AP_OtherPayable\FMAINBOOKSTDCURRID.cs" />
+    <Compile Include="application\AP_OtherPayable\FPAYORGID.cs" />
+    <Compile Include="application\AP_OtherPayable\FSETTLEORGID.cs" />
+    <Compile Include="application\AP_OtherPayable\Model.cs" />
+    <Compile Include="application\AP_OtherPayable\OtherPayableInfoSaveObject.cs" />
+    <Compile Include="application\AP_OtherPayable\OtherPayableSQLObject.cs" />
     <Compile Include="application\AP_Payable\FBillTypeID.cs" />
     <Compile Include="application\AP_Payable\FChargeId.cs" />
     <Compile Include="application\AP_Payable\FCURRENCYID.cs" />
@@ -117,6 +130,32 @@
     <Compile Include="application\AP_Payable\PayableDataSet.cs" />
     <Compile Include="application\AP_Payable\PayableInfoSaveObject.cs" />
     <Compile Include="application\AP_Payable\PayableSQLObject.cs" />
+    <Compile Include="application\AR_OtherRecAble\FBillTypeID.cs" />
+    <Compile Include="application\AR_OtherRecAble\FCONTACTUNIT.cs" />
+    <Compile Include="application\AR_OtherRecAble\FCOSTDEPARTMENTID.cs" />
+    <Compile Include="application\AR_OtherRecAble\FCOSTID.cs" />
+    <Compile Include="application\AR_OtherRecAble\FCURRENCYID.cs" />
+    <Compile Include="application\AR_OtherRecAble\FEntity.cs" />
+    <Compile Include="application\AR_OtherRecAble\FPAYORGID.cs" />
+    <Compile Include="application\AR_OtherRecAble\FSETTLEORGID.cs" />
+    <Compile Include="application\AR_OtherRecAble\Model.cs" />
+    <Compile Include="application\AR_OtherRecAble\OtherRecAbleInfoSaveObject.cs" />
+    <Compile Include="application\AR_OtherRecAble\OtherRecAbleSQLObject.cs" />
+    <Compile Include="application\AR_receivable\FBillTypeID.cs" />
+    <Compile Include="application\AR_receivable\FCURRENCYID.cs" />
+    <Compile Include="application\AR_receivable\FCUSTOMERID.cs" />
+    <Compile Include="application\AR_receivable\FEntityDetail.cs" />
+    <Compile Include="application\AR_receivable\FEXCHANGETYPE.cs" />
+    <Compile Include="application\AR_receivable\FMAINBOOKSTDCURRID.cs" />
+    <Compile Include="application\AR_receivable\FMATERIALID.cs" />
+    <Compile Include="application\AR_receivable\FPAYORGID.cs" />
+    <Compile Include="application\AR_receivable\FPRICEUNITID.cs" />
+    <Compile Include="application\AR_receivable\FSALEORGID.cs" />
+    <Compile Include="application\AR_receivable\FSETTLEORGID.cs" />
+    <Compile Include="application\AR_receivable\FsubHeadFinc.cs" />
+    <Compile Include="application\AR_receivable\Model.cs" />
+    <Compile Include="application\AR_receivable\ReceivableInfoSaveObject.cs" />
+    <Compile Include="application\AR_receivable\ReceivableSQLObject.cs" />
     <Compile Include="application\customer\AllInfoObject.cs" />
     <Compile Include="application\customer\customAllocate\CustomInfoAllocateObject.cs" />
     <Compile Include="application\customer\customAllocate\GetToOrgID.cs" />
@@ -191,12 +230,19 @@
     <Compile Include="databaseConn\RemoteExcuteDataBase.cs" />
     <Compile Include="log\BussnessResult.cs" />
     <Compile Include="middleDataBaseStatemnt\SQLStatement.cs" />
+    <Compile Include="modify\BussnessModify.cs" />
+    <Compile Include="modify\CustomerUpdateFields.cs" />
+    <Compile Include="modify\SupplierUpdateFields.cs" />
+    <Compile Include="modify\UpdateFields.cs" />
     <Compile Include="schTask\InvokeReturnHandle.cs" />
     <Compile Include="schTask\SchTask.cs" />
+    <Compile Include="schTask\SchTask4OtherPayable.cs" />
+    <Compile Include="schTask\SchTask4OtherRecAble.cs" />
     <Compile Include="schTask\SchTask4Payable.cs" />
     <Compile Include="schTask\SchTask4Custom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="log\SystemLog.cs" />
+    <Compile Include="schTask\SchTask4Receivable.cs" />
     <Compile Include="schTask\SchTask4Supplier.cs" />
     <Compile Include="schTask\SchTask4Voucher.cs" />
     <Compile Include="tools\AsynFileHelp.cs" />
@@ -206,9 +252,6 @@
     <Compile Include="tools\ToBase64String.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="application\AP_OtherPayable\" />
-    <Folder Include="application\AR_OtherRecAble\" />
-    <Folder Include="application\AR_receivable\" />
     <Folder Include="application\customer\customAudit\" />
   </ItemGroup>
   <ItemGroup>

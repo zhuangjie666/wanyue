@@ -8,6 +8,6 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.voucher
 {
     public class VouchSQLObject
     {
-        public static string Vouch = "Vouch";
+        public static string Voucher = "Voucher";
     }
 }

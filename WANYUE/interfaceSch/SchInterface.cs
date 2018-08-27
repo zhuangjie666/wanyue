@@ -8,6 +8,7 @@ using Kingdee.K3.WANYUE.PlugIn.service.schTask;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,10 +18,10 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.interfaceSch {
     public interface SchInterface
     {
 
-        bool updateMiddleDataBase(string updateSQLStatement,string model,string tableName);
+        bool updateMiddleDataBase(string updateSQLStatement,string model,string tableName, SqlConnection Sqlconn);
 
         ConnectionResult connectionToRemoteDatabase();
-        bool closeConnetction();
+        bool closeConnetction(SqlConnection sqlConn);
         bool LoginAPI(string model);
         InvokeReturnHandle<InvokeResult> InvokeAPI<T>(string[] opearteList, T t, LoginResult loginResult, Context ctx,string formID,string model);
 

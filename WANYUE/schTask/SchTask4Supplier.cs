@@ -17,6 +17,8 @@ using Kingdee.K3.WANYUE.PlugIn.service.application.supplier.supplierAllocate;
 using Kingdee.K3.WANYUE.PlugIn.service.application.supplier.supplierSave;
 using Kingdee.K3.WANYUE.PlugIn.service.application.customer;
 using Kingdee.K3.WANYUE.PlugIn.service.middleDataBaseStatemnt;
+using Kingdee.K3.WANYUE.PlugIn.service.modify;
+using System.Data.SqlClient;
 
 namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
 {
@@ -34,14 +36,25 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
         {
             SQLStatement = base.GetStatement(SupplierSQLObject.Supplier);
             opearteList = GetOpearteList(SupplierSQLObject.Supplier);
+            //修改的单独处理
+            BussnessModify customerModify = new BussnessModify();
+            customerModify.excuteSQL(model, connectionToRemoteDatabase(), ctx);
             if (connectionToRemoteDatabase().Sucessd)
             {
                 ExcuteDataBaseResult excuteDataBaseResult = base.remoteExcuteDataBase.excuteStatement(SQLStatement, connectionToRemoteDatabase().Sqlconn);
                 supplierSaveInfoObjList = handleData<SupplierInfoSaveObject>(excuteDataBaseResult.Ds);
+                if (!closeConnetction(connectionToRemoteDatabase().Sqlconn))
+                {
+                    //打印关闭连接
+                    BussnessLog.WriteBussnessLog("", "数据库操作错误", model+"中间表取数后,关闭数据库连接失败! 请联系系统管理员!");
+                    return;
+                }
             }
             else
             {
-                //打印
+                BussnessLog.WriteBussnessLog("", "数据库操作错误", model+"中间表取数前打开数据库连接失败! 请联系系统管理员!");
+                return;
+                
             }
 
             if (LoginAPI(model))
@@ -54,9 +67,17 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     
                 }
                 List<string> getUpdateSQLStatements = new SQLStatement(model).getUpdateSQLStatement(model,statusMap);
+
+                //  ExcuteDataBaseResult excuteDataBaseResult = remoteExcuteDataBase.excuteStatement(updateSQLStatement, connectionToRemoteDatabase().Sqlconn);
+                SqlConnection Sqlconn = connectionToRemoteDatabase().Sqlconn;
                 foreach (string UpdateSQLStatement in getUpdateSQLStatements)
                 {
-                    updateMiddleDataBase(UpdateSQLStatement, model,  "t_kf_supplier");
+                    updateMiddleDataBase(UpdateSQLStatement, model,  "t_kf_supplier", Sqlconn);
+                }
+                if (!closeConnetction(Sqlconn)) {
+                    //打印关闭连接信息
+                    BussnessLog.WriteBussnessLog("", "数据库操作错误", model + "中间表数据更新后,关闭数据库连接失败! 请联系系统管理员!");
+                    return;
                 }
             }
 
@@ -96,7 +117,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
         public override List<T> handleData<T>(DataSet dataSet)
         {
             List<SupplierInfoSaveObject> supplierSaveInfoObjList = new List<SupplierInfoSaveObject>();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
             {
                 SupplierInfoSaveObject supplierSaveInfoObj = new SupplierInfoSaveObject();
                 application.supplier.supplierSave.Model model = new application.supplier.supplierSave.Model();
@@ -109,9 +130,9 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 FUseOrgId fUseOrgId = new FUseOrgId();
                 FPayCurrencyId fPayCurrencyId = new FPayCurrencyId();
                 FLocNewContact fLocNewContact = new FLocNewContact();
-                fCreateOrgId.FNumber = "100";
+                fCreateOrgId.FNumber = "9999";
                 model.FCreateOrgId = fCreateOrgId;
-                fUseOrgId.FNumber = "100";
+                fUseOrgId.FNumber = "9999";
                 model.FUseOrgId = fUseOrgId;
                 fPayCurrencyId.Fnumber = "PRE001";
                 fFinanceInfo.FPayCurrencyId = fPayCurrencyId;

@@ -7,6 +7,7 @@ using System.Data;
 using Kingdee.K3.WANYUE.PlugIn.service.middleDataBaseStatemnt;
 using Kingdee.K3.WANYUE.PlugIn.service.tools;
 using Kingdee.K3.WANYUE.PlugIn.service.Invoke.invokeResult;
+using System.Data.SqlClient;
 
 namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
 {
@@ -31,16 +32,27 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             VoucherNumbers.Add("银收", "PZZ1");
             VoucherNumbers.Add("银付", "PZZ2");
 
-            SQLStatement = base.GetStatement(VouchSQLObject.Vouch);
-            opearteList = GetOpearteList(VouchSQLObject.Vouch);
+            SQLStatement = base.GetStatement(VouchSQLObject.Voucher);
+            opearteList = GetOpearteList(VouchSQLObject.Voucher);
             if (connectionToRemoteDatabase().Sucessd)
             {
                 ExcuteDataBaseResult excuteDataBaseResult = base.remoteExcuteDataBase.excuteStatement(SQLStatement, connectionToRemoteDatabase().Sqlconn);
                 voucherSaveInfoObjList = handleData<VoucherInfoSaveObject>(excuteDataBaseResult.Ds);
+                if (!closeConnetction(connectionToRemoteDatabase().Sqlconn))
+                {
+                    //打印关闭连接
+                    BussnessLog.WriteBussnessLog("", "数据库操作错误", model + "中间表取数后,关闭数据库连接失败! 请联系系统管理员!");
+                    return;
+                }
             }
             else
             {
-                //打印
+                if (!closeConnetction(connectionToRemoteDatabase().Sqlconn))
+                {
+                    //打印关闭连接
+                    BussnessLog.WriteBussnessLog("", "数据库操作错误", model + "中间表取数前打开数据库连接失败! 请联系系统管理员!");
+                    return;
+                }
             }
 
             if (LoginAPI(model))
@@ -54,9 +66,15 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     statusMap.Add(voucherSaveInfoObj.Model.FVOUCHERGROUPNO, callResult.CustomOpearteObject.Result);
                 }
                 List<string> getUpdateSQLStatements = new SQLStatement(model).getUpdateSQLStatement(model,statusMap);
+                SqlConnection Sqlconn = connectionToRemoteDatabase().Sqlconn;
                 foreach (string UpdateSQLStatement in getUpdateSQLStatements)
                 {
-                    updateMiddleDataBase(UpdateSQLStatement, model, "t_kf_voucher");
+                    updateMiddleDataBase(UpdateSQLStatement, model, "t_kf_voucher",Sqlconn);
+                }
+                if (!closeConnetction(Sqlconn))
+                {
+                    BussnessLog.WriteBussnessLog("", "数据库操作错误", model + "中间表数据更新后,关闭数据库连接失败! 请联系系统管理员!");
+                    return;
                 }
             }
         }

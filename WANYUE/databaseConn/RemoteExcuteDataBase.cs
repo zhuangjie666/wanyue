@@ -73,6 +73,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service
             try
             {
                 SqlCommand cmd = new SqlCommand(sqlStatement, sqlConn);
+                cmd.CommandTimeout = 30000;
                 DataSet ds = new DataSet();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(ds);

@@ -9,6 +9,7 @@ using Kingdee.BOS.Core;
 using Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable;
 using Kingdee.K3.WANYUE.PlugIn.service.Invoke.invokeResult;
 using Kingdee.K3.WANYUE.PlugIn.service.middleDataBaseStatemnt;
+using System.Data.SqlClient;
 
 namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
 {
@@ -48,9 +49,10 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     statusMap.Add(payableSaveInfoObject.Model.FBillNo, callResult.CustomOpearteObject.Result);
                 }
                 List<string> getUpdateSQLStatements = new SQLStatement(model).getUpdateSQLStatement(model,statusMap);
+                SqlConnection Sqlconn = connectionToRemoteDatabase().Sqlconn;
                 foreach (string UpdateSQLStatement in getUpdateSQLStatements)
                 {
-                    updateMiddleDataBase(UpdateSQLStatement, model, "t_kf_payable");
+                    updateMiddleDataBase(UpdateSQLStatement, model, "t_kf_payable",Sqlconn);
                 }
             }
         }

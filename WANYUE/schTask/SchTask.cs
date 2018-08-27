@@ -22,6 +22,10 @@ using Kingdee.K3.WANYUE.PlugIn.service.application.voucher;
 using Kingdee.K3.WANYUE.PlugIn.service.application;
 using Kingdee.K3.WANYUE.PlugIn.service.tools;
 using Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable;
+using System.Data.SqlClient;
+using Kingdee.K3.WANYUE.PlugIn.service.application.AP_OtherPayable;
+using Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable;
+using Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble;
 
 namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
 {
@@ -131,7 +135,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             {
                 return new string[] { Save, Submit, Audit };
             }
-            else if(VouchSQLObject.Vouch.Equals(model) || PayableSQLObject.Payable.Equals(model))
+            else if(VouchSQLObject.Voucher.Equals(model) || PayableSQLObject.Payable.Equals(model)||OtherPayableSQLObject.OtherPayable.Equals(model)||ReceivableSQLObject.Receivable.Equals(model)|| OtherRecAbleSQLObject.OtherRecAble.Equals(model))
             {
                 return new string[] { Save };
             }
@@ -146,15 +150,16 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             {
                 BussnessLog.WriteBussnessLog(remoteExcuteDataBase, "DATABASE","");
                 remoteExcuteDataBase.Result = false;
+                 
             }
             remoteExcuteDataBase.Result = true;
             ConnectionResult result = remoteExcuteDataBase.connectionToRemoteDatabase();
             return result;
         }
 
-        public bool closeConnetction()
+        public bool closeConnetction(SqlConnection sqlConn)
         {
-            if (!remoteExcuteDataBase.closeConnection(remoteExcuteDataBase.connectionToRemoteDatabase().Sqlconn))
+            if (!remoteExcuteDataBase.closeConnection(sqlConn))
             {
                 BussnessLog.WriteBussnessLog("", "数据库操作错误","关闭数据库错误！");
                 return false;
@@ -242,6 +247,13 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 }
                 if (model.Equals("voucher")||model.Equals("payable")) {
                     InvokeReturnHandle <InvokeResult> result = handleReturnMessage<InvokeResult>(invokeResult, opearte, model, ctx);
+                    if (result.CustomOpearteObject.Result.ResponseStatus.IsSuccess)
+                    {
+                        BussnessLog.WriteBussnessLog(default(T), model, "操作=" + opearte + "成功!");
+                    }
+                    else {
+                        BussnessLog.WriteBussnessLog(default(T), model, "操作=" + opearte + "失败!");
+                    }
                     return result;
                 }
 
@@ -266,15 +278,14 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             throw new NotImplementedException();
         }
 
-        public bool updateMiddleDataBase(string updateSQLStatement,string model,string tableName)
+        public bool updateMiddleDataBase(string updateSQLStatement,string model,string tableName, SqlConnection Sqlconn)
         {
-
-            ExcuteDataBaseResult excuteDataBaseResult = remoteExcuteDataBase.excuteStatement(updateSQLStatement, connectionToRemoteDatabase().Sqlconn);
+           BussnessLog.WriteBussnessLog("", "测试打印", "update=" + updateSQLStatement);
+            ExcuteDataBaseResult excuteDataBaseResult = remoteExcuteDataBase.excuteStatement(updateSQLStatement, Sqlconn);
             if (!excuteDataBaseResult.Sucessd) {
                 BussnessLog.WriteBussnessLog("","更新中间数据库","更新中间数据库,表="+ tableName+"错误, 操作模块="+model);
                 return false;
             }
-            closeConnetction();
             return true;
         }
         //public abstract InvokeReturnHandle<T> handleReturnMessage<T>(InvokeResult invokeResult, string opearte, string model, Context ctx);
