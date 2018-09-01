@@ -8,7 +8,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble
 {
     public class Model
     {
-        private string fnumber;
+        private string fBillNo;
         private FBillTypeID fBillTypeID;
         private DateTime fDate;
         private DateTime fENDDATE_H;//到期日
@@ -18,8 +18,22 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble
         private FCURRENCYID fCURRENCYID;
         private FSETTLEORGID fSETTLEORGID;
         private FPAYORGID fPAYORGID;
-        private decimal fAMOUNTFOR;
-        private List<FEntity> FEntity;
+      //  private decimal fAMOUNTFOR;
+     //   private FMAINBOOKSTDCURRID fMAINBOOKSTDCURRID;
+        private List<FEntity> fEntity;
+
+        public string FBillNo
+        {
+            get
+            {
+                return fBillNo;
+            }
+
+            set
+            {
+                fBillNo = value;
+            }
+        }
 
         public FBillTypeID FBillTypeID
         {
@@ -138,42 +152,16 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble
             }
         }
 
-        public decimal FAMOUNTFOR
+        public List<FEntity> FEntity
         {
             get
             {
-                return fAMOUNTFOR;
+                return fEntity;
             }
 
             set
             {
-                fAMOUNTFOR = value;
-            }
-        }
-
-        public List<FEntity> FEntity1
-        {
-            get
-            {
-                return FEntity;
-            }
-
-            set
-            {
-                FEntity = value;
-            }
-        }
-
-        public string Fnumber
-        {
-            get
-            {
-                return fnumber;
-            }
-
-            set
-            {
-                fnumber = value;
+                fEntity = value;
             }
         }
     }

@@ -190,7 +190,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             {
                 BussnessLog.WriteBussnessLog(default(T), model, "调用模块=" + model + ",调用方法=" + opearte + ",返回为NULL");
             }
-            if (model.Equals("voucher"))
+            if (model.Equals("voucher")||model.Equals("payable")||model.Equals("receivable")||model.Equals("otherpayable")||model.Equals("otherrecable"))
             {
                 if (!invokeResult.Result.ResponseStatus.IsSuccess)
                 {
@@ -245,7 +245,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     BussnessLog.WriteBussnessLog(default(T), model, "input json=" + input);
                     invokeResult = InvokeCloudAPI.InvokeFunction(input, loginResult.client, formID, opearte, model);
                 }
-                if (model.Equals("voucher")||model.Equals("payable")) {
+                if (model.Equals("voucher")||model.Equals("payable")|| model.Equals("receivable") || model.Equals("otherpayable") || model.Equals("otherrecable")) {
                     InvokeReturnHandle <InvokeResult> result = handleReturnMessage<InvokeResult>(invokeResult, opearte, model, ctx);
                     if (result.CustomOpearteObject.Result.ResponseStatus.IsSuccess)
                     {

@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
+namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable
 {
-   public class PayableDataSet
+    public class ReceivableDataSet
     {
         private string fNumber;
         private string fBillTypeID;
         private DateTime fdate;
         private DateTime fendDate;
         private DateTime faccntTimeJudgeTime;
-        private string fsupplier;
+        private string fCustomer;
         private string fsettleOrg;
         private string fpayOrg;
         private string fpurchaseOrg;
@@ -92,19 +92,6 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             set
             {
                 faccntTimeJudgeTime = value;
-            }
-        }
-
-        public string Fsupplier
-        {
-            get
-            {
-                return fsupplier;
-            }
-
-            set
-            {
-                fsupplier = value;
             }
         }
 
@@ -300,6 +287,19 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             set
             {
                 fallAmountFor = value;
+            }
+        }
+
+        public string FCustomer
+        {
+            get
+            {
+                return fCustomer;
+            }
+
+            set
+            {
+                fCustomer = value;
             }
         }
     }

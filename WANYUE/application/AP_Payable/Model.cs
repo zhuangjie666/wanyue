@@ -28,7 +28,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
         /// </summary>
         private FsubHeadSuppiler fsubHeadSuppiler; //头部供应商信息
         private FsubHeadFinc fsubHeadFinc;
-        private FEntityDetail fEntityDetail;
+        private List<FEntityDetail> fEntityDetail;
 
         public FBillTypeID FBillTypeID
         {
@@ -40,6 +40,19 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             set
             {
                 fBillTypeID = value;
+            }
+        }
+
+        public string FBillNo
+        {
+            get
+            {
+                return fBillNo;
+            }
+
+            set
+            {
+                fBillNo = value;
             }
         }
 
@@ -199,7 +212,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             }
         }
 
-        public FEntityDetail FEntityDetail
+        public List<FEntityDetail> FEntityDetail
         {
             get
             {
@@ -209,19 +222,6 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             set
             {
                 fEntityDetail = value;
-            }
-        }
-
-        public string FBillNo
-        {
-            get
-            {
-                return fBillNo;
-            }
-
-            set
-            {
-                fBillNo = value;
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
     {
         private decimal fNoTaxAmountFor;
         private decimal fTaxAmountFor;
-        private decimal faccntTimeJudgeTime;
+        private DateTime faccntTimeJudgeTime;
 
         public decimal FNoTaxAmountFor
         {
@@ -38,7 +38,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             }
         }
 
-        public decimal FaccntTimeJudgeTime
+        public DateTime FaccntTimeJudgeTime
         {
             get
             {

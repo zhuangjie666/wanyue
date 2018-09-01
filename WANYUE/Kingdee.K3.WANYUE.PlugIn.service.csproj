@@ -136,9 +136,11 @@
     <Compile Include="application\AR_OtherRecAble\FCOSTID.cs" />
     <Compile Include="application\AR_OtherRecAble\FCURRENCYID.cs" />
     <Compile Include="application\AR_OtherRecAble\FEntity.cs" />
+    <Compile Include="application\AR_OtherRecAble\FMAINBOOKSTDCURRID.cs" />
     <Compile Include="application\AR_OtherRecAble\FPAYORGID.cs" />
     <Compile Include="application\AR_OtherRecAble\FSETTLEORGID.cs" />
     <Compile Include="application\AR_OtherRecAble\Model.cs" />
+    <Compile Include="application\AR_OtherRecAble\OtherRecAbleDataSet.cs" />
     <Compile Include="application\AR_OtherRecAble\OtherRecAbleInfoSaveObject.cs" />
     <Compile Include="application\AR_OtherRecAble\OtherRecAbleSQLObject.cs" />
     <Compile Include="application\AR_receivable\FBillTypeID.cs" />
@@ -154,6 +156,7 @@
     <Compile Include="application\AR_receivable\FSETTLEORGID.cs" />
     <Compile Include="application\AR_receivable\FsubHeadFinc.cs" />
     <Compile Include="application\AR_receivable\Model.cs" />
+    <Compile Include="application\AR_receivable\ReceivableDataset.cs" />
     <Compile Include="application\AR_receivable\ReceivableInfoSaveObject.cs" />
     <Compile Include="application\AR_receivable\ReceivableSQLObject.cs" />
     <Compile Include="application\customer\AllInfoObject.cs" />

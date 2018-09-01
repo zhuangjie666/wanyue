@@ -12,8 +12,9 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble
         private FCOSTDEPARTMENTID fCOSTDEPARTMENTID;
         private string fINVOICETYPE;
         private decimal fEntryTaxRate;
-        private decimal fNOTAXAMOUNTFOR;
+        private decimal fNOTAXAMOUNT_D;
         private decimal fTAXAMOUNTFOR;
+        private decimal fAMOUNTFOR_D;
         private string fCOMMENT;
 
         public FCOSTID FCOSTID
@@ -68,16 +69,16 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble
             }
         }
 
-        public decimal FNOTAXAMOUNTFOR
+        public decimal FNOTAXAMOUNT_D
         {
             get
             {
-                return fNOTAXAMOUNTFOR;
+                return fNOTAXAMOUNT_D;
             }
 
             set
             {
-                fNOTAXAMOUNTFOR = value;
+                fNOTAXAMOUNT_D = value;
             }
         }
 
@@ -91,6 +92,19 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble
             set
             {
                 fTAXAMOUNTFOR = value;
+            }
+        }
+
+        public decimal FAMOUNTFOR_D
+        {
+            get
+            {
+                return fAMOUNTFOR_D;
+            }
+
+            set
+            {
+                fAMOUNTFOR_D = value;
             }
         }
 

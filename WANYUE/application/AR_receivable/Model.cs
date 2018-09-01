@@ -10,9 +10,13 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable
     {
         private string fnumber;
         private FBillTypeID fBillTypeID;
+        private string fBillNo;
+        private string fCancelStatus; //作废状态
         private DateTime fDATE;//业务日期
         private DateTime fENDDATE_H;//到期日
         private FCUSTOMERID fCUSTOMERID;
+        private string fBUSINESSTYPE;//业务类型
+        private string fDOCUMENTSTATUS; //单据状态
         private FMAINBOOKSTDCURRID fMAINBOOKSTDCURRID;
         private FEXCHANGETYPE fEXCHANGETYPE;
         private FCURRENCYID fCURRENCYID;
@@ -20,7 +24,20 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable
         private FPAYORGID fPAYORGID;
         private FSALEORGID fSALEORGID;
         private FsubHeadFinc fsubHeadFinc;
-        private List<FEntityDetail> FEntityDetail;
+        private List<FEntityDetail> fEntityDetail;
+
+        public string Fnumber
+        {
+            get
+            {
+                return fnumber;
+            }
+
+            set
+            {
+                fnumber = value;
+            }
+        }
 
         public FBillTypeID FBillTypeID
         {
@@ -32,6 +49,32 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable
             set
             {
                 fBillTypeID = value;
+            }
+        }
+
+        public string FBillNo
+        {
+            get
+            {
+                return fBillNo;
+            }
+
+            set
+            {
+                fBillNo = value;
+            }
+        }
+
+        public string FCancelStatus
+        {
+            get
+            {
+                return fCancelStatus;
+            }
+
+            set
+            {
+                fCancelStatus = value;
             }
         }
 
@@ -71,6 +114,32 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable
             set
             {
                 fCUSTOMERID = value;
+            }
+        }
+
+        public string FBUSINESSTYPE
+        {
+            get
+            {
+                return fBUSINESSTYPE;
+            }
+
+            set
+            {
+                fBUSINESSTYPE = value;
+            }
+        }
+
+        public string FDOCUMENTSTATUS
+        {
+            get
+            {
+                return fDOCUMENTSTATUS;
+            }
+
+            set
+            {
+                fDOCUMENTSTATUS = value;
             }
         }
 
@@ -165,29 +234,16 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable
             }
         }
 
-        public List<FEntityDetail> FEntityDetail1
+        public List<FEntityDetail> FEntityDetail
         {
             get
             {
-                return FEntityDetail;
+                return fEntityDetail;
             }
 
             set
             {
-                FEntityDetail = value;
-            }
-        }
-
-        public string Fnumber
-        {
-            get
-            {
-                return fnumber;
-            }
-
-            set
-            {
-                fnumber = value;
+                fEntityDetail = value;
             }
         }
     }

@@ -4,31 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
+namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble
 {
-   public class PayableDataSet
+    public class OtherRecAbleDataSet
     {
         private string fNumber;
-        private string fBillTypeID;
+        private string fBillType;
         private DateTime fdate;
         private DateTime fendDate;
         private DateTime faccntTimeJudgeTime;
-        private string fsupplier;
+        private string fContactUnitType;
+        private string fContactUnit;
         private string fsettleOrg;
         private string fpayOrg;
-        private string fpurchaseOrg;
-        private string fcurrency;
-        private string fmaterial;
-        private string fpriceUnit;
-        private decimal fprice;
-        private decimal fpriceQty;
-        private decimal ftaxPrice;
-        private decimal fentryTaxRate;
-        private decimal fEntryDiscountRate;
-        private decimal fdiscountAmountFor;
+        private string fCurrency;
+        private string fCost;
+        private string fCostDepartment;
+        private string fInvoiceType;
+        private decimal fEntryTaxRate;
         private decimal fNoTaxAmountFor;
         private decimal fTaxAmountFor;
-        private decimal fallAmountFor;
+        private decimal fAmountFor;
+        private string fComment;
 
         public string FNumber
         {
@@ -43,16 +40,16 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             }
         }
 
-        public string FBillTypeID
+        public string FBillType
         {
             get
             {
-                return fBillTypeID;
+                return fBillType;
             }
 
             set
             {
-                fBillTypeID = value;
+                fBillType = value;
             }
         }
 
@@ -95,16 +92,29 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             }
         }
 
-        public string Fsupplier
+        public string FContactUnitType
         {
             get
             {
-                return fsupplier;
+                return fContactUnitType;
             }
 
             set
             {
-                fsupplier = value;
+                fContactUnitType = value;
+            }
+        }
+
+        public string FContactUnit
+        {
+            get
+            {
+                return fContactUnit;
+            }
+
+            set
+            {
+                fContactUnit = value;
             }
         }
 
@@ -134,133 +144,68 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             }
         }
 
-        public string FpurchaseOrg
+        public string FCurrency
         {
             get
             {
-                return fpurchaseOrg;
+                return fCurrency;
             }
 
             set
             {
-                fpurchaseOrg = value;
+                fCurrency = value;
             }
         }
 
-        public string Fcurrency
+        public string FCost
         {
             get
             {
-                return fcurrency;
+                return fCost;
             }
 
             set
             {
-                fcurrency = value;
+                fCost = value;
             }
         }
 
-        public string Fmaterial
+        public string FCostDepartment
         {
             get
             {
-                return fmaterial;
+                return fCostDepartment;
             }
 
             set
             {
-                fmaterial = value;
+                fCostDepartment = value;
             }
         }
 
-        public string FpriceUnit
+        public string FInvoiceType
         {
             get
             {
-                return fpriceUnit;
+                return fInvoiceType;
             }
 
             set
             {
-                fpriceUnit = value;
+                fInvoiceType = value;
             }
         }
 
-        public decimal Fprice
+        public decimal FEntryTaxRate
         {
             get
             {
-                return fprice;
+                return fEntryTaxRate;
             }
 
             set
             {
-                fprice = value;
-            }
-        }
-
-        public decimal FpriceQty
-        {
-            get
-            {
-                return fpriceQty;
-            }
-
-            set
-            {
-                fpriceQty = value;
-            }
-        }
-
-        public decimal FtaxPrice
-        {
-            get
-            {
-                return ftaxPrice;
-            }
-
-            set
-            {
-                ftaxPrice = value;
-            }
-        }
-
-        public decimal FentryTaxRate
-        {
-            get
-            {
-                return fentryTaxRate;
-            }
-
-            set
-            {
-                fentryTaxRate = value;
-            }
-        }
-
-        public decimal FEntryDiscountRate
-        {
-            get
-            {
-                return fEntryDiscountRate;
-            }
-
-            set
-            {
-                fEntryDiscountRate = value;
-            }
-        }
-
-        public decimal FdiscountAmountFor
-        {
-            get
-            {
-                return fdiscountAmountFor;
-            }
-
-            set
-            {
-                fdiscountAmountFor = value;
+                fEntryTaxRate = value;
             }
         }
 
@@ -290,16 +235,29 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             }
         }
 
-        public decimal FallAmountFor
+        public decimal FAmountFor
         {
             get
             {
-                return fallAmountFor;
+                return fAmountFor;
             }
 
             set
             {
-                fallAmountFor = value;
+                fAmountFor = value;
+            }
+        }
+
+        public string FComment
+        {
+            get
+            {
+                return fComment;
+            }
+
+            set
+            {
+                fComment = value;
             }
         }
     }

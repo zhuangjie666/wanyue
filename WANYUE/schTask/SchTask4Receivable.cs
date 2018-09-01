@@ -20,7 +20,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
         public bool CallResult = false;
         string[] opearteList = { };
         public static string model = "receivable";
-        //  public List<FEntity> fentryList = new List<FEntity>();
+        public List<FEntityDetail> fentryList = new List<FEntityDetail>();
         public Dictionary<string, string> VoucherNumbers = new Dictionary<string, string>();
         public List<ReceivableInfoSaveObject> receivableSaveInfoObjList = null;
 
@@ -73,14 +73,191 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
             }
         }
 
-            
+
 
 
         public override List<T> handleData<T>(DataSet dataSet)
         {
-            throw new NotImplementedException();
+            List<ReceivableInfoSaveObject> receivableSaveInfoObjList = new List<ReceivableInfoSaveObject>();
+            List<ReceivableDataSet> receivableDataSetList = new List<ReceivableDataSet>();
+            for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
+            {
+                ReceivableDataSet receivableDataSet = new ReceivableDataSet();
+                receivableDataSet.FNumber = dataSet.Tables[0].Rows[i]["FNumber"].ToString();
+                receivableDataSet.Fdate = Convert.ToDateTime(dataSet.Tables[0].Rows[i]["Fdate"]);
+                receivableDataSet.FendDate = Convert.ToDateTime(dataSet.Tables[0].Rows[i]["FendDate"]);
+                receivableDataSet.FaccntTimeJudgeTime = Convert.ToDateTime(dataSet.Tables[0].Rows[i]["FaccntTimeJudgeTime"]);
+                receivableDataSet.FCustomer = dataSet.Tables[0].Rows[i]["FCustomer"].ToString();
+                receivableDataSet.FsettleOrg = dataSet.Tables[0].Rows[i]["FsettleOrg"].ToString();
+                receivableDataSet.FpayOrg = dataSet.Tables[0].Rows[i]["FpayOrg"].ToString();
+                receivableDataSet.FpurchaseOrg = dataSet.Tables[0].Rows[i]["FpurchaseOrg"].ToString();
+                receivableDataSet.Fcurrency = dataSet.Tables[0].Rows[i]["Fcurrency"].ToString();
+                receivableDataSet.Fmaterial = dataSet.Tables[0].Rows[i]["Fmaterial"].ToString();
+                receivableDataSet.FpriceUnit = dataSet.Tables[0].Rows[i]["FpriceUnit"].ToString();
+                receivableDataSet.Fprice = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["Fprice"]);
+                receivableDataSet.FpriceQty = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FpriceQty"]);
+                receivableDataSet.FtaxPrice = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FtaxPrice"]);
+                receivableDataSet.FentryTaxRate = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FentryTaxRate"]);
+                receivableDataSet.FEntryDiscountRate = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FEntryDiscountRate"]);
+                receivableDataSet.FdiscountAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FdiscountAmountFor"]);
+                receivableDataSet.FNoTaxAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FNoTaxAmountFor"]);
+                receivableDataSet.FTaxAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FTaxAmountFor"]);
+                receivableDataSet.FallAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FallAmountFor"]);
+                receivableDataSetList.Add(receivableDataSet);
+            }
+            for (int i = 0; i < receivableDataSetList.Count; i++)
+            {
+                //分录
+                FEntityDetail fentryDetail = new FEntityDetail();
+                //1.物料
+                FMATERIALID fMATERIALID = new FMATERIALID();
+                fMATERIALID.FNumber = receivableDataSetList[i].Fmaterial;
+                fentryDetail.FMATERIALID = fMATERIALID;
+                //2.计价单位编码
+                FPRICEUNITID fPRICEUNITID = new FPRICEUNITID();
+                fPRICEUNITID.FNumber = receivableDataSetList[i].FpriceUnit;
+                fentryDetail.FPRICEUNITID = fPRICEUNITID;
+                //3.单价
+                fentryDetail.FPrice = receivableDataSetList[i].Fprice;
+                //4.含税单价
+                fentryDetail.FTaxPrice = receivableDataSetList[i].FtaxPrice;
+                //5.税率(%)
+                fentryDetail.FEntryTaxRate = receivableDataSetList[i].FentryTaxRate;
+                //6.折扣率(%)
+                fentryDetail.FEntryDiscountRate = receivableDataSetList[i].FEntryDiscountRate;
+                //7.折扣额
+                fentryDetail.FDISCOUNTAMOUNTFOR = receivableDataSetList[i].FdiscountAmountFor;
+                //8.价税合计
+                fentryDetail.FALLAMOUNTFOR_D = receivableDataSetList[i].FallAmountFor;
+
+                if (i + 1 < receivableDataSetList.Count)
+                {
+                    fentryList.Add(fentryDetail);
+                    if (receivableDataSetList[i].FNumber != receivableDataSetList[i + 1].FNumber)
+                    {
+                        ReceivableInfoSaveObject receivableInfoSaveObject = new ReceivableInfoSaveObject();
+                        Model model = new Model();
+                        List<FEntityDetail> fEntityA = new List<FEntityDetail>();
+                        fEntityA.AddRange(fentryList);
+                        model.FEntityDetail = fEntityA;
+
+                        //1.单据类型
+                        FBillTypeID fBillTypeID = new FBillTypeID();
+                        fBillTypeID.FNumber = "YSD01_SYS";
+                        model.FBillTypeID = fBillTypeID;
+                        //2.单号
+                        model.FBillNo = receivableDataSetList[i].FNumber;
+                        //3.客户
+                        FCUSTOMERID fCUSTOMERID = new FCUSTOMERID();
+                        fCUSTOMERID.FNumber = receivableDataSetList[i].FCustomer;
+                        model.FCUSTOMERID = fCUSTOMERID;
+                        //4.作废状态
+                        model.FCancelStatus = "A";
+                        //5.业务类型 默认普通采购
+                        model.FBUSINESSTYPE = "1";
+                        //6.单据状态
+                        model.FDOCUMENTSTATUS = "A";
+                        //7.业务日期
+                        model.FDATE = receivableDataSetList[i].Fdate;
+                        //8.到期日
+                        model.FENDDATE_H = receivableDataSetList[i].FendDate;
+                        //9.币别
+                        FCURRENCYID fCURRENCYID = new FCURRENCYID();
+                        fCURRENCYID.FNumber = receivableDataSetList[i].Fcurrency;
+                        model.FCURRENCYID = fCURRENCYID;
+                        //10.结算组织
+                        FSETTLEORGID fSETTLEORGID = new FSETTLEORGID();
+                        fSETTLEORGID.FNumber = receivableDataSetList[i].FsettleOrg;
+                        model.FSETTLEORGID = fSETTLEORGID;
+                        //11.付款组织
+                        FPAYORGID fPAYORGID = new FPAYORGID();
+                        fPAYORGID.FNumber = receivableDataSetList[i].FpayOrg;
+                        model.FPAYORGID = fPAYORGID;
+                        ////12.采购组织
+                        //FPURCHASEORGID fPURCHASEORGID = new FPURCHASEORGID();
+                        //fPURCHASEORGID.FNumber = receivableDataSetList[i].FpurchaseOrg;
+                        //model.FPURCHASEORGID = fPURCHASEORGID;
+                        //13.头部财务信息
+                        FsubHeadFinc fsubHeadFinc = new FsubHeadFinc();
+                        //13.1 到期日计算日期
+                        fsubHeadFinc.FACCNTTIMEJUDGETIME = receivableDataSetList[i].FaccntTimeJudgeTime;
+                        //13.2 不含税金额
+                        fsubHeadFinc.FNoTaxAmountFor = receivableDataSetList[i].FNoTaxAmountFor;
+                        //13.3 税额
+                        fsubHeadFinc.FTaxAmountFor = receivableDataSetList[i].FTaxAmountFor;
+                        model.FsubHeadFinc = fsubHeadFinc;
+                        List<FEntityDetail> fEntityB = new List<FEntityDetail>();
+                        fEntityB.AddRange(fentryList);
+                        model.FEntityDetail = fEntityB;
+                        receivableInfoSaveObject.Model = model;
+                        receivableSaveInfoObjList.Add(receivableInfoSaveObject);
+                        fentryList.Clear();
+                    }
+                    else
+                    {
+                        fentryList.Add(fentryDetail);
+                    }
+                }
+                if (receivableDataSetList.Count == i + 1)
+                {
+                    ReceivableInfoSaveObject receivableInfoSaveObject = new ReceivableInfoSaveObject();
+                    Model model = new Model();
+                    //1.单据类型
+                    FBillTypeID fBillTypeID = new FBillTypeID();
+                    fBillTypeID.FNumber = "YSD01_SYS";
+                    model.FBillTypeID = fBillTypeID;
+                    //2.单号
+                    model.FBillNo = receivableDataSetList[i].FNumber;
+                    //3.客户
+                    FCUSTOMERID fCUSTOMERID = new FCUSTOMERID();
+                    fCUSTOMERID.FNumber = receivableDataSetList[i].FCustomer;
+                    model.FCUSTOMERID = fCUSTOMERID;
+                    //4.作废状态
+                    model.FCancelStatus = "A";
+                    //5.业务类型 默认普通采购
+                    model.FBUSINESSTYPE = "1";
+                    //6.单据状态
+                    model.FDOCUMENTSTATUS = "A";
+                    //7.业务日期
+                    model.FDATE = receivableDataSetList[i].Fdate;
+                    //8.到期日
+                    model.FENDDATE_H = receivableDataSetList[i].FendDate;
+                    //9.币别
+                    FCURRENCYID fCURRENCYID = new FCURRENCYID();
+                    fCURRENCYID.FNumber = receivableDataSetList[i].Fcurrency;
+                    model.FCURRENCYID = fCURRENCYID;
+                    //10.结算组织
+                    FSETTLEORGID fSETTLEORGID = new FSETTLEORGID();
+                    fSETTLEORGID.FNumber = receivableDataSetList[i].FsettleOrg;
+                    model.FSETTLEORGID = fSETTLEORGID;
+                    //11.付款组织
+                    FPAYORGID fPAYORGID = new FPAYORGID();
+                    fPAYORGID.FNumber = receivableDataSetList[i].FpayOrg;
+                    model.FPAYORGID = fPAYORGID;
+                    ////12.采购组织
+                    //FPURCHASEORGID fPURCHASEORGID = new FPURCHASEORGID();
+                    //fPURCHASEORGID.FNumber = receivableDataSetList[i].FpurchaseOrg;
+                    //model.FPURCHASEORGID = fPURCHASEORGID;
+                    //13.头部财务信息
+                    FsubHeadFinc fsubHeadFinc = new FsubHeadFinc();
+                    //13.1 到期日计算日期
+                    fsubHeadFinc.FACCNTTIMEJUDGETIME = receivableDataSetList[i].FaccntTimeJudgeTime;
+                    //13.2 不含税金额
+                    fsubHeadFinc.FNoTaxAmountFor = receivableDataSetList[i].FNoTaxAmountFor;
+                    //13.3 税额
+                    fsubHeadFinc.FTaxAmountFor = receivableDataSetList[i].FTaxAmountFor;
+                    model.FsubHeadFinc = fsubHeadFinc;
+                    List<FEntityDetail> fEntityB = new List<FEntityDetail>();
+                    fEntityB.AddRange(fentryList);
+                    model.FEntityDetail = fEntityB;
+                    receivableInfoSaveObject.Model = model;
+                    receivableSaveInfoObjList.Add(receivableInfoSaveObject);
+
+                }
+            }
+            return (List<T>)(object)receivableSaveInfoObjList;
         }
-
-
     }
+
+
 }
