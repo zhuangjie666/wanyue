@@ -23,6 +23,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable
         private FSETTLEORGID fSETTLEORGID;
         private FPAYORGID fPAYORGID;
         private FSALEORGID fSALEORGID;
+        private string fAR_Remark;
         private FsubHeadFinc fsubHeadFinc;
         private List<FEntityDetail> fEntityDetail;
 
@@ -218,6 +219,19 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable
             set
             {
                 fSALEORGID = value;
+            }
+        }
+
+        public string FAR_Remark
+        {
+            get
+            {
+                return fAR_Remark;
+            }
+
+            set
+            {
+                fAR_Remark = value;
             }
         }
 

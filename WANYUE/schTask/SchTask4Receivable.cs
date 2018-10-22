@@ -57,7 +57,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 foreach (ReceivableInfoSaveObject receivableInfoSaveObject in receivableSaveInfoObjList)
                 {
                     InvokeReturnHandle<InvokeResult> callResult = InvokeAPI(opearteList, receivableInfoSaveObject, InvokeCloudAPI.Login(model), ctx, formID, model);
-                    statusMap.Add(receivableInfoSaveObject.Model.Fnumber, callResult.CustomOpearteObject.Result);
+                    statusMap.Add(receivableInfoSaveObject.Model.FBillNo, callResult.CustomOpearteObject.Result);
                 }
                 List<string> getUpdateSQLStatements = new SQLStatement(model).getUpdateSQLStatement(model, statusMap);
                 SqlConnection Sqlconn = connectionToRemoteDatabase().Sqlconn;
@@ -78,6 +78,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
 
         public override List<T> handleData<T>(DataSet dataSet)
         {
+            fentryList.Clear();
             List<ReceivableInfoSaveObject> receivableSaveInfoObjList = new List<ReceivableInfoSaveObject>();
             List<ReceivableDataSet> receivableDataSetList = new List<ReceivableDataSet>();
             for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
@@ -90,7 +91,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 receivableDataSet.FCustomer = dataSet.Tables[0].Rows[i]["FCustomer"].ToString();
                 receivableDataSet.FsettleOrg = dataSet.Tables[0].Rows[i]["FsettleOrg"].ToString();
                 receivableDataSet.FpayOrg = dataSet.Tables[0].Rows[i]["FpayOrg"].ToString();
-                receivableDataSet.FpurchaseOrg = dataSet.Tables[0].Rows[i]["FpurchaseOrg"].ToString();
+                receivableDataSet.FpurchaseOrg = dataSet.Tables[0].Rows[i]["FSaleOrg"].ToString();
                 receivableDataSet.Fcurrency = dataSet.Tables[0].Rows[i]["Fcurrency"].ToString();
                 receivableDataSet.Fmaterial = dataSet.Tables[0].Rows[i]["Fmaterial"].ToString();
                 receivableDataSet.FpriceUnit = dataSet.Tables[0].Rows[i]["FpriceUnit"].ToString();
@@ -103,6 +104,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 receivableDataSet.FNoTaxAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FNoTaxAmountFor"]);
                 receivableDataSet.FTaxAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FTaxAmountFor"]);
                 receivableDataSet.FallAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FallAmountFor"]);
+                receivableDataSet.Fremark = dataSet.Tables[0].Rows[i]["FREMARK"].ToString();
                 receivableDataSetList.Add(receivableDataSet);
             }
             for (int i = 0; i < receivableDataSetList.Count; i++)
@@ -115,6 +117,9 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 fentryDetail.FMATERIALID = fMATERIALID;
                 //2.计价单位编码
                 FPRICEUNITID fPRICEUNITID = new FPRICEUNITID();
+                //if ("Pcs".Equals(receivableDataSetList[i].FpriceUnit)) {
+                //    fPRICEUNITID.FNumber = "10101";
+                //}
                 fPRICEUNITID.FNumber = receivableDataSetList[i].FpriceUnit;
                 fentryDetail.FPRICEUNITID = fPRICEUNITID;
                 //3.单价
@@ -129,12 +134,23 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 fentryDetail.FDISCOUNTAMOUNTFOR = receivableDataSetList[i].FdiscountAmountFor;
                 //8.价税合计
                 fentryDetail.FALLAMOUNTFOR_D = receivableDataSetList[i].FallAmountFor;
+                //9.计价数量
+                fentryDetail.FPriceQty = receivableDataSetList[i].FpriceQty;
+                //10. 不含税金额 
+                fentryDetail.FNoTaxAmountFor_D = receivableDataSetList[i].FNoTaxAmountFor;
+                //11.税额
+                fentryDetail.FTaxAmountFor_D = receivableDataSetList[i].FTaxAmountFor;
+                //12. 
+                FSalUnitId fSalUnitId = new FSalUnitId();
+                fSalUnitId.FNumber = receivableDataSetList[i].FpriceUnit;
+                fentryDetail.FSalUnitId = fSalUnitId;
 
                 if (i + 1 < receivableDataSetList.Count)
                 {
-                    fentryList.Add(fentryDetail);
+                   // fentryList.Add(fentryDetail);
                     if (receivableDataSetList[i].FNumber != receivableDataSetList[i + 1].FNumber)
                     {
+                        fentryList.Add(fentryDetail);
                         ReceivableInfoSaveObject receivableInfoSaveObject = new ReceivableInfoSaveObject();
                         Model model = new Model();
                         List<FEntityDetail> fEntityA = new List<FEntityDetail>();
@@ -154,7 +170,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                         //4.作废状态
                         model.FCancelStatus = "A";
                         //5.业务类型 默认普通采购
-                        model.FBUSINESSTYPE = "1";
+                        model.FBUSINESSTYPE = "BZ";
                         //6.单据状态
                         model.FDOCUMENTSTATUS = "A";
                         //7.业务日期
@@ -173,6 +189,9 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                         FPAYORGID fPAYORGID = new FPAYORGID();
                         fPAYORGID.FNumber = receivableDataSetList[i].FpayOrg;
                         model.FPAYORGID = fPAYORGID;
+
+                        model.FAR_Remark = receivableDataSetList[i].Fremark;
+
                         ////12.采购组织
                         //FPURCHASEORGID fPURCHASEORGID = new FPURCHASEORGID();
                         //fPURCHASEORGID.FNumber = receivableDataSetList[i].FpurchaseOrg;
@@ -182,9 +201,9 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                         //13.1 到期日计算日期
                         fsubHeadFinc.FACCNTTIMEJUDGETIME = receivableDataSetList[i].FaccntTimeJudgeTime;
                         //13.2 不含税金额
-                        fsubHeadFinc.FNoTaxAmountFor = receivableDataSetList[i].FNoTaxAmountFor;
-                        //13.3 税额
-                        fsubHeadFinc.FTaxAmountFor = receivableDataSetList[i].FTaxAmountFor;
+                        //fsubHeadFinc.FNoTaxAmountFor = receivableDataSetList[i].FNoTaxAmountFor;
+                        ////13.3 税额
+                        //fsubHeadFinc.FTaxAmountFor = receivableDataSetList[i].FTaxAmountFor;
                         model.FsubHeadFinc = fsubHeadFinc;
                         List<FEntityDetail> fEntityB = new List<FEntityDetail>();
                         fEntityB.AddRange(fentryList);
@@ -200,6 +219,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 }
                 if (receivableDataSetList.Count == i + 1)
                 {
+                    fentryList.Add(fentryDetail);
                     ReceivableInfoSaveObject receivableInfoSaveObject = new ReceivableInfoSaveObject();
                     Model model = new Model();
                     //1.单据类型
@@ -215,7 +235,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     //4.作废状态
                     model.FCancelStatus = "A";
                     //5.业务类型 默认普通采购
-                    model.FBUSINESSTYPE = "1";
+                    model.FBUSINESSTYPE = "BZ";
                     //6.单据状态
                     model.FDOCUMENTSTATUS = "A";
                     //7.业务日期
@@ -234,6 +254,8 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     FPAYORGID fPAYORGID = new FPAYORGID();
                     fPAYORGID.FNumber = receivableDataSetList[i].FpayOrg;
                     model.FPAYORGID = fPAYORGID;
+
+                    model.FAR_Remark = receivableDataSetList[i].Fremark;
                     ////12.采购组织
                     //FPURCHASEORGID fPURCHASEORGID = new FPURCHASEORGID();
                     //fPURCHASEORGID.FNumber = receivableDataSetList[i].FpurchaseOrg;
@@ -242,19 +264,20 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     FsubHeadFinc fsubHeadFinc = new FsubHeadFinc();
                     //13.1 到期日计算日期
                     fsubHeadFinc.FACCNTTIMEJUDGETIME = receivableDataSetList[i].FaccntTimeJudgeTime;
-                    //13.2 不含税金额
-                    fsubHeadFinc.FNoTaxAmountFor = receivableDataSetList[i].FNoTaxAmountFor;
-                    //13.3 税额
-                    fsubHeadFinc.FTaxAmountFor = receivableDataSetList[i].FTaxAmountFor;
+                    ////13.2 不含税金额
+                    //fsubHeadFinc.FNoTaxAmountFor = receivableDataSetList[i].FNoTaxAmountFor;
+                    ////13.3 税额
+                    //fsubHeadFinc.FTaxAmountFor = receivableDataSetList[i].FTaxAmountFor;
                     model.FsubHeadFinc = fsubHeadFinc;
                     List<FEntityDetail> fEntityB = new List<FEntityDetail>();
                     fEntityB.AddRange(fentryList);
                     model.FEntityDetail = fEntityB;
                     receivableInfoSaveObject.Model = model;
                     receivableSaveInfoObjList.Add(receivableInfoSaveObject);
-
+                    fentryList.Clear();
                 }
             }
+            
             return (List<T>)(object)receivableSaveInfoObjList;
         }
     }

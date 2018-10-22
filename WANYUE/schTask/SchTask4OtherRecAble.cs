@@ -75,7 +75,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
 
         public override List<T> handleData<T>(DataSet dataSet)
         {
-
+            fentryList.Clear();
             List<OtherRecAbleInfoSaveObject> otherRecAbleSaveInfoObjList = new List<OtherRecAbleInfoSaveObject>();
             List<OtherRecAbleDataSet> otherRecAbleDataSetList = new List<OtherRecAbleDataSet>();
             for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
@@ -97,6 +97,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 otherRecAbleDataSet.FNoTaxAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FNoTaxAmountFor"]);
                 otherRecAbleDataSet.FTaxAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FTaxAmountFor"]);
                 otherRecAbleDataSet.FAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FAmountFor"]);
+                otherRecAbleDataSet.Fremark = dataSet.Tables[0].Rows[i]["FREMARK"].ToString();
                 otherRecAbleDataSetList.Add(otherRecAbleDataSet);
             }
 
@@ -117,16 +118,17 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 //4.税率(%)
                 fentry.FEntryTaxRate = otherRecAbleDataSetList[i].FEntryTaxRate;
                 //5. 不含税金额
-                fentry.FNOTAXAMOUNT_D = otherRecAbleDataSetList[i].FNoTaxAmountFor;
+                fentry.FNOTAXAMOUNTFOR = otherRecAbleDataSetList[i].FNoTaxAmountFor;
                 //6.税额
                 fentry.FTAXAMOUNTFOR = otherRecAbleDataSetList[i].FTaxAmountFor;
                 //7.总金额
                 fentry.FAMOUNTFOR_D = otherRecAbleDataSetList[i].FAmountFor;
                 if (i + 1 < otherRecAbleDataSetList.Count)
                 {
-                    fentryList.Add(fentry);
+                   
                     if (otherRecAbleDataSetList[i].FNumber != otherRecAbleDataSetList[i + 1].FNumber)
                     {
+                        fentryList.Add(fentry);
                         OtherRecAbleInfoSaveObject otherRecAbleInfoSaveObject = new OtherRecAbleInfoSaveObject();
                         Model model = new Model();
                         List<FEntity> fEntityA = new List<FEntity>();
@@ -184,6 +186,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                         //model.FAMOUNTFOR = otherRecAbleDataSetList[i].FAmountFor;
                         //12.本位币
                         //model.FMAINBOOKSTDCURRID= 
+                        model.FAR_OtherRemarks = otherRecAbleDataSetList[i].Fremark;
                         List<FEntity> fEntityB = new List<FEntity>();
                         fEntityB.AddRange(fentryList);
                         model.FEntity = fEntityB;
@@ -253,6 +256,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     model.FPAYORGID = fPAYORGID;
                     //11.总金额
                     // model.FAMOUNTFOR = otherRecAbleDataSetList[i].FAmountFor;
+                    model.FAR_OtherRemarks = otherRecAbleDataSetList[i].Fremark;
                     List<FEntity> fEntityB = new List<FEntity>();
                     fEntityB.AddRange(fentryList);
                     model.FEntity = fEntityB;

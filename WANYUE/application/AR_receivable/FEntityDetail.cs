@@ -17,7 +17,9 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable
         private decimal fEntryDiscountRate;
         private decimal fDISCOUNTAMOUNTFOR;
         private decimal fALLAMOUNTFOR_D;
-
+        private decimal fNoTaxAmountFor_D;
+        private decimal fTaxAmountFor_D;
+        private FSalUnitId fSalUnitId;
         public FMATERIALID FMATERIALID
         {
             get
@@ -132,6 +134,45 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable
             set
             {
                 fALLAMOUNTFOR_D = value;
+            }
+        }
+
+        public decimal FNoTaxAmountFor_D
+        {
+            get
+            {
+                return fNoTaxAmountFor_D;
+            }
+
+            set
+            {
+                fNoTaxAmountFor_D = value;
+            }
+        }
+
+        public decimal FTaxAmountFor_D
+        {
+            get
+            {
+                return fTaxAmountFor_D;
+            }
+
+            set
+            {
+                fTaxAmountFor_D = value;
+            }
+        }
+
+        public FSalUnitId FSalUnitId
+        {
+            get
+            {
+                return fSalUnitId;
+            }
+
+            set
+            {
+                fSalUnitId = value;
             }
         }
     }

@@ -59,7 +59,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
         public override List<T> handleData<T>(DataSet dataSet)
         {
             List<PayableInfoSaveObject> payableSaveInfoObjList = new List<PayableInfoSaveObject>();
-
+            fentryList.Clear();
             List<PayableDataSet> payableDataSetList = new List<PayableDataSet>();
             for (int i = 0; i < dataSet.Tables[0].Rows.Count; i++)
             {
@@ -84,7 +84,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 payableDataSet.FNoTaxAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FNoTaxAmountFor"]);
                 payableDataSet.FTaxAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FTaxAmountFor"]);
                 payableDataSet.FallAmountFor = Convert.ToDecimal(dataSet.Tables[0].Rows[i]["FallAmountFor"]);
-
+                payableDataSet.Fremark = dataSet.Tables[0].Rows[i]["FREMARK"].ToString();
                 payableDataSetList.Add(payableDataSet);
             }
 
@@ -104,6 +104,8 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 FPRICEUNITID fPRICEUNITID = new FPRICEUNITID();
                 fPRICEUNITID.FNumber = payableDataSetList[i].FpriceUnit;
                 fentryDetail.FPRICEUNITID = fPRICEUNITID;
+                ///3.计价 数量
+                fentryDetail.FPriceQty = payableDataSetList[i].FpriceQty;
                 //3.单价
                 fentryDetail.FPrice = payableDataSetList[i].Fprice;
                 //4.含税单价
@@ -117,11 +119,17 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                 //8.价税合计
                 fentryDetail.FALLAMOUNTFOR_D = payableDataSetList[i].FallAmountFor;
 
+                ///10.不含税金额
+                fentryDetail.FNoTaxAmountFor_D = payableDataSetList[i].FNoTaxAmountFor;
+                ///11. 税额
+                fentryDetail.FTAXAMOUNTFOR_D = payableDataSetList[i].FTaxAmountFor;
+
                 if (i + 1 < payableDataSetList.Count)
                 {
-                    fentryList.Add(fentryDetail);
+                    //fentryList.Add(fentryDetail);
                     if (payableDataSetList[i].FNumber != payableDataSetList[i + 1].FNumber)
                     {
+                        fentryList.Add(fentryDetail);
                         PayableInfoSaveObject payableInfoSaveObject = new PayableInfoSaveObject();
                         Model model = new Model();
                         List<FEntityDetail> fEntityA = new List<FEntityDetail>();
@@ -130,7 +138,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                    
                         //1.单据类型
                         FBillTypeID fBillTypeID = new FBillTypeID();
-                        fBillTypeID.FNumber = "FKDLX01_SYS";
+                        fBillTypeID.FNumber = "YFD01_SYS";
                         model.FBillTypeID = fBillTypeID;
                         //2.单号
                         model.FBillNo = payableDataSetList[i].FNumber;
@@ -164,6 +172,9 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                         FPURCHASEORGID fPURCHASEORGID = new FPURCHASEORGID();
                         fPURCHASEORGID.FNumber = payableDataSetList[i].FpurchaseOrg;
                         model.FPURCHASEORGID = fPURCHASEORGID;
+
+                        model.FAP_Remark = payableDataSetList[i].Fremark;
+
                         //13.头部财务信息
                         FsubHeadFinc fsubHeadFinc = new FsubHeadFinc();
                         //13.1 到期日计算日期
@@ -192,7 +203,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     Model model = new Model();
                     //1.单据类型
                     FBillTypeID fBillTypeID = new FBillTypeID();
-                    fBillTypeID.FNumber = "FKDLX01_SYS";
+                    fBillTypeID.FNumber = "YFD01_SYS";
                     model.FBillTypeID = fBillTypeID;
                     //2.单号
                     model.FBillNo = payableDataSetList[i].FNumber;
@@ -226,6 +237,8 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     FPURCHASEORGID fPURCHASEORGID = new FPURCHASEORGID();
                     fPURCHASEORGID.FNumber = payableDataSetList[i].FpurchaseOrg;
                     model.FPURCHASEORGID = fPURCHASEORGID;
+                    //备注
+                    model.FAP_Remark = payableDataSetList[i].Fremark;
                     //13.头部财务信息
                     FsubHeadFinc fsubHeadFinc = new FsubHeadFinc();
                     //13.1 到期日计算日期
@@ -235,7 +248,9 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     //13.3 税额
                     fsubHeadFinc.FTaxAmountFor = payableDataSetList[i].FTaxAmountFor;
                     model.FsubHeadFinc = fsubHeadFinc;
-
+                    List<FEntityDetail> fEntityB = new List<FEntityDetail>();
+                    fEntityB.AddRange(fentryList);
+                    model.FEntityDetail = fEntityB;
                     payableInfoSaveObject.Model = model;
                     payableSaveInfoObjList.Add(payableInfoSaveObject);
 

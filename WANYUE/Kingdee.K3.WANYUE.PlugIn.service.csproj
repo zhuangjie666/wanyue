@@ -110,6 +110,7 @@
     <Compile Include="application\AP_OtherPayable\FPAYORGID.cs" />
     <Compile Include="application\AP_OtherPayable\FSETTLEORGID.cs" />
     <Compile Include="application\AP_OtherPayable\Model.cs" />
+    <Compile Include="application\AP_OtherPayable\OtherPayableDataSet.cs" />
     <Compile Include="application\AP_OtherPayable\OtherPayableInfoSaveObject.cs" />
     <Compile Include="application\AP_OtherPayable\OtherPayableSQLObject.cs" />
     <Compile Include="application\AP_Payable\FBillTypeID.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="application\AR_receivable\FPAYORGID.cs" />
     <Compile Include="application\AR_receivable\FPRICEUNITID.cs" />
     <Compile Include="application\AR_receivable\FSALEORGID.cs" />
+    <Compile Include="application\AR_receivable\FSalUnitId.cs" />
     <Compile Include="application\AR_receivable\FSETTLEORGID.cs" />
     <Compile Include="application\AR_receivable\FsubHeadFinc.cs" />
     <Compile Include="application\AR_receivable\Model.cs" />

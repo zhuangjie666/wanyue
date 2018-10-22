@@ -10,11 +10,14 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
     {
         private FMATERIALID fMATERIALID; //物料
         private FPRICEUNITID fPRICEUNITID;
+        private decimal fPriceQty;
         private decimal fPrice;
         private decimal fTaxPrice;
         private decimal fentryTaxRate;
         private decimal fEntryDiscountRate;
         private decimal fdiscountAmountFor;
+        private decimal fNoTaxAmountFor_D;
+        private decimal fTAXAMOUNTFOR_D;
         private decimal fALLAMOUNTFOR_D;
 
         public FMATERIALID FMATERIALID
@@ -40,6 +43,19 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             set
             {
                 fPRICEUNITID = value;
+            }
+        }
+
+        public decimal FPriceQty
+        {
+            get
+            {
+                return fPriceQty;
+            }
+
+            set
+            {
+                fPriceQty = value;
             }
         }
 
@@ -105,6 +121,32 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             set
             {
                 fdiscountAmountFor = value;
+            }
+        }
+
+        public decimal FNoTaxAmountFor_D
+        {
+            get
+            {
+                return fNoTaxAmountFor_D;
+            }
+
+            set
+            {
+                fNoTaxAmountFor_D = value;
+            }
+        }
+
+        public decimal FTAXAMOUNTFOR_D
+        {
+            get
+            {
+                return fTAXAMOUNTFOR_D;
+            }
+
+            set
+            {
+                fTAXAMOUNTFOR_D = value;
             }
         }
 

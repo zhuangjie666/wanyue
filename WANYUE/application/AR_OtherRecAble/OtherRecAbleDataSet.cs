@@ -25,7 +25,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble
         private decimal fNoTaxAmountFor;
         private decimal fTaxAmountFor;
         private decimal fAmountFor;
-        private string fComment;
+        private string fremark;
 
         public string FNumber
         {
@@ -248,16 +248,17 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble
             }
         }
 
-        public string FComment
+
+        public string Fremark
         {
             get
             {
-                return fComment;
+                return fremark;
             }
 
             set
             {
-                fComment = value;
+                fremark = value;
             }
         }
     }

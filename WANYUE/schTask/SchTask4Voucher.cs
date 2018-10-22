@@ -20,17 +20,17 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
         string[] opearteList = { };
         public static string model = "voucher";
         public List<FEntity> fentryList = new List<FEntity>();
-        public  Dictionary<string, string> VoucherNumbers = new Dictionary<string, string>();
+        public  Dictionary<string, string> VoucherNumbers = new Dictionary<string, string> { { "记", "PRE001"}, { "现收", "PRE002" }, { "现付", "PRE003"}, { "转", "PRE004" }, { "银收", "PZZ1" }, {"银付", "PZZ2"}};
 
         public List<VoucherInfoSaveObject> voucherSaveInfoObjList = null;
         public override void Run(Context ctx, Schedule schedule)
         {
-            VoucherNumbers.Add("记", "PRE001");
-            VoucherNumbers.Add("现收", "PRE002");
-            VoucherNumbers.Add("现付", "PRE003");
-            VoucherNumbers.Add("转", "PRE004");
-            VoucherNumbers.Add("银收", "PZZ1");
-            VoucherNumbers.Add("银付", "PZZ2");
+            //VoucherNumbers.Add("记", "PRE001");
+            //VoucherNumbers.Add("现收", "PRE002");
+            //VoucherNumbers.Add("现付", "PRE003");
+            //VoucherNumbers.Add("转", "PRE004");
+            //VoucherNumbers.Add("银收", "PZZ1");
+            //VoucherNumbers.Add("银付", "PZZ2");
 
             SQLStatement = base.GetStatement(VouchSQLObject.Voucher);
             opearteList = GetOpearteList(VouchSQLObject.Voucher);
@@ -114,7 +114,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
         {
 
             //   foreach (DataSet dt in dataSet.Tables) {
-
+            fentryList.Clear();
             List<VoucherInfoSaveObject> voucherSaveInfoObjList = new List<VoucherInfoSaveObject>();
            
             List<VoucherDataSet> voucherDataSetList = new List<VoucherDataSet>();
@@ -387,7 +387,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.schTask
                     voucherSaveInfoObj.Model = model;
                     voucherSaveInfoObj.Fid = voucherDataSetList[i].Fid.ToString();
                     voucherSaveInfoObjList.Add(voucherSaveInfoObj);
-                  //  fentryList.Clear();
+                    fentryList.Clear();
                 }
             }
             

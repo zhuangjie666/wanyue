@@ -23,6 +23,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
         private FSETTLEORGID fSETTLEORGID;///结算组织
         private FPAYORGID fPAYORGID; //付款组织
         private FPURCHASEORGID fPURCHASEORGID; //采购组织
+        private string fAP_Remark;
         /// <summary>
         /// 非必填字段
         /// </summary>
@@ -183,6 +184,19 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             set
             {
                 fPURCHASEORGID = value;
+            }
+        }
+
+        public string FAP_Remark
+        {
+            get
+            {
+                return fAP_Remark;
+            }
+
+            set
+            {
+                fAP_Remark = value;
             }
         }
 

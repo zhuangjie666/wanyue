@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_OtherPayable
+namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_receivable
 {
-   public class FCOSTID
+    public class FSalUnitId
     {
         private string fNumber;
 

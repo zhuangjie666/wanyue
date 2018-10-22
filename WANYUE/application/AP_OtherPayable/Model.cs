@@ -12,6 +12,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_OtherPayable
         private FBillTypeID fBillTypeID;
         private DateTime fDATE;
         private DateTime fENDDATE_H;
+        private DateTime fACCNTTIMEJUDGETIME;
         private string fCONTACTUNITTYPE;
         private FCONTACTUNIT fCONTACTUNIT;
         private FCURRENCYID fCURRENCYID;
@@ -19,7 +20,21 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_OtherPayable
         private FPAYORGID fPAYORGID;
         private string fCancelStatus;
         private FMAINBOOKSTDCURRID fMAINBOOKSTDCURRID;
+        private string fRemarks;
         private List<FEntity> fEntity;
+
+        public string FBillNo
+        {
+            get
+            {
+                return fBillNo;
+            }
+
+            set
+            {
+                fBillNo = value;
+            }
+        }
 
         public FBillTypeID FBillTypeID
         {
@@ -57,6 +72,19 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_OtherPayable
             set
             {
                 fENDDATE_H = value;
+            }
+        }
+
+        public DateTime FACCNTTIMEJUDGETIME
+        {
+            get
+            {
+                return fACCNTTIMEJUDGETIME;
+            }
+
+            set
+            {
+                fACCNTTIMEJUDGETIME = value;
             }
         }
 
@@ -151,6 +179,19 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_OtherPayable
             }
         }
 
+        public string FRemarks
+        {
+            get
+            {
+                return fRemarks;
+            }
+
+            set
+            {
+                fRemarks = value;
+            }
+        }
+
         public List<FEntity> FEntity
         {
             get
@@ -161,20 +202,6 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_OtherPayable
             set
             {
                 fEntity = value;
-            }
-        }
-
-
-        public string FBillNo
-        {
-            get
-            {
-                return fBillNo;
-            }
-
-            set
-            {
-                fBillNo = value;
             }
         }
     }

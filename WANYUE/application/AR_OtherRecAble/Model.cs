@@ -18,8 +18,9 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble
         private FCURRENCYID fCURRENCYID;
         private FSETTLEORGID fSETTLEORGID;
         private FPAYORGID fPAYORGID;
+        private string fAR_OtherRemarks;
       //  private decimal fAMOUNTFOR;
-     //   private FMAINBOOKSTDCURRID fMAINBOOKSTDCURRID;
+      //   private FMAINBOOKSTDCURRID fMAINBOOKSTDCURRID;
         private List<FEntity> fEntity;
 
         public string FBillNo
@@ -149,6 +150,19 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AR_OtherRecAble
             set
             {
                 fPAYORGID = value;
+            }
+        }
+
+        public string FAR_OtherRemarks
+        {
+            get
+            {
+                return fAR_OtherRemarks;
+            }
+
+            set
+            {
+                fAR_OtherRemarks = value;
             }
         }
 

@@ -29,7 +29,7 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
         private decimal fNoTaxAmountFor;
         private decimal fTaxAmountFor;
         private decimal fallAmountFor;
-
+        private string fremark;
         public string FNumber
         {
             get
@@ -300,6 +300,19 @@ namespace Kingdee.K3.WANYUE.PlugIn.service.application.AP_Payable
             set
             {
                 fallAmountFor = value;
+            }
+        }
+
+        public string Fremark
+        {
+            get
+            {
+                return fremark;
+            }
+
+            set
+            {
+                fremark = value;
             }
         }
     }
